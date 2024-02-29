@@ -1,9 +1,9 @@
 import LoginForm from "@/ui/user/LoginForm";
 
-export default async function loginPage() {
+export default async function loginPage({ searchParams }) {
     return (
         <>
-            <LoginForm />
+            <LoginForm redirectTo={searchParams.redirectTo}  />
         </>
     );
 }

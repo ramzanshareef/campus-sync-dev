@@ -9,8 +9,9 @@ import { userLogin } from "@/actions/user/auth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
+import PropTypes from "prop-types";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
     const [state, loginAction] = useFormState(userLogin, null);
     const router = useRouter();
 
@@ -40,7 +41,7 @@ const LoginForm = () => {
                 progress: undefined,
                 onClose: () => {
                     document.getElementById("loginForm").reset();
-                    router.replace("/");
+                    router.replace(props.redirectTo || "/");
                 },
             });
         }
@@ -112,3 +113,7 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+LoginForm.propTypes = {
+    redirectTo: PropTypes.string,
+};
