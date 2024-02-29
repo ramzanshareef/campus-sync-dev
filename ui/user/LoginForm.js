@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { SubmitButton } from "./SubmitButton";
 import Image from "next/image";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { userLogin } from "@/actions/user/auth";
 import { useRouter } from "next/navigation";
@@ -47,14 +47,27 @@ const LoginForm = (props) => {
         }
     }, [state]);
 
+    useEffect(() => {
+        if (props.redirectTo && props.redirectTo !== "") {
+            toast.error("You need to login to access the page", {
+                position: "top-left",
+                autoClose: 1800,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    }, [props.redirectTo]);
+
     return (
         <>
             <div className="min-h-screen">
-                <ToastContainer />
                 <div className="flex flex-col min-h-full justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
                         <Image src="/logo.svg" alt="logo" height={10} width={10}
-                            style={{ width: "4rem" }}
+                            style={{ width: "8rem" }}
                             priority={true}
                         />
                         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login to your Account</h2>

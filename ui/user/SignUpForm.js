@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SubmitButton } from "./SubmitButton";
 import Image from "next/image";
@@ -51,11 +51,10 @@ const SignUpForm = () => {
     return (
         <>
             <div className="min-h-screen">
-                <ToastContainer />
                 <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
                         <Image src="/logo.svg" alt="logo" height={10} width={10}
-                            style={{ width: "4rem" }}
+                            style={{ width: "8rem" }}
                             priority={true}
                         />
                         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

@@ -2,7 +2,7 @@
 
 import User from "@/models/User";
 import connectDB from "../connectDB";
-import { cookies } from "next/headers";
+import { getSession } from "@/src/lib/session";
 
 
 const bcryptjs = require("bcryptjs");
@@ -61,17 +61,14 @@ export async function userLogin(currentState, formData) {
                         id: user._id,
                         name: user.name,
                         email: user.email
-                    }, jwt_secret, { expiresIn: "2d" });
+                    }, jwt_secret, { expiresIn: "1d" });
                     // let salt = bcryptjs.genSaltSync(10);
                     // hashedToken = bcryptjs.hashSync(token, salt);
-                    cookies().set("userToken", token, {
-                        path: "/",
-                        maxAge: 60 * 60 * 24 * 2, // 2 day
-                        sameSite: "lax",
-                        secure: process.env.NODE_ENV === "production",
-                        httpOnly: true,
-                    });
-                    return { status: 200, token: token, message: "Login successful" };
+                    const session = await getSession();
+                    session.token = token;
+                    session.isAuth = true;
+                    await session.save();
+                    return { status: 200, message: "Login successful" };
                 }
                 else {
                     return { status: 400, message: "Invalid Credentials" };

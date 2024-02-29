@@ -1,18 +1,21 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { getSession } from "./lib/session";
 
 
 export async function middleware(request) {
-    const protectedRoutes = ["/", "/chats"];
+    const protectedRoutes = ["/home"];
     const authRoutes = ["/login", "/signup"];
     const path = request.nextUrl.pathname;
+    let isAuth = await checkAuth();
+
+
     if (protectedRoutes.includes(path)) {
-        if (!checkAuth()) {
+        if (!isAuth) {
             return NextResponse.redirect(new URL(`/login?redirectTo=${path}`, request.nextUrl.origin).toString());
         }
     }
     if (authRoutes.includes(path)) {
-        if (checkAuth()) {
+        if (isAuth) {
             return NextResponse.redirect(new URL("/", request.nextUrl.origin).toString());
         }
     }
@@ -20,10 +23,10 @@ export async function middleware(request) {
 
 }
 
-const checkAuth = () => {
-    let token = cookies().get("userToken");
-    if (token && token !== undefined && token !== null && token?.value !== "") {
-        return true;
+const checkAuth = async () => {
+    const session = await getSession();
+    if (!session || session.isAuth === undefined) {
+        return false;
     }
-    return false;
+    return session.isAuth;
 };
