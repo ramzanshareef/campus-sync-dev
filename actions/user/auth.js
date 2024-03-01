@@ -15,7 +15,8 @@ export async function userSignup(currentState, formData) {
     let name = formData.get("name");
     let email = formData.get("email");
     let password = formData.get("password");
-    if (name === "" || email === "" || password === "") {
+    let userType = formData.get("userType");
+    if (name === "" || email === "" || password === "" || userType === "") {
         return { status: 400, message: "All fields are required" };
     }
     else {
@@ -31,7 +32,8 @@ export async function userSignup(currentState, formData) {
                 let newUser = new User({
                     name: name,
                     email: email,
-                    password: password
+                    password: password,
+                    userType: userType
                 });
                 await newUser.save();
                 return { status: 200, message: "Signed up succesfully, please login" };
@@ -47,13 +49,14 @@ export async function userSignup(currentState, formData) {
 export async function userLogin(currentState, formData) {
     let email = formData.get("email");
     let password = formData.get("password");
-    if (email === "" || password === "") {
+    let userType = formData.get("userType");
+    if (email === "" || password === "" || userType === "") {
         return { status: 400, message: "All fields are required" };
     }
     else {
         try {
             await connectDB();
-            let user = await User.findOne({ email: email });
+            let user = await User.findOne({ email: email, userType: userType });
             if (user) {
                 let isMatch = await bcryptjs.compare(password, user.password);
                 if (isMatch) {
@@ -67,6 +70,7 @@ export async function userLogin(currentState, formData) {
                     const session = await getSession();
                     session.token = token;
                     session.isAuth = true;
+                    session.userType = userType;
                     await session.save();
                     return { status: 200, message: "Login successful" };
                 }
