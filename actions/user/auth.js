@@ -72,7 +72,7 @@ export async function userLogin(currentState, formData) {
                     session.isAuth = true;
                     session.userType = userType;
                     await session.save();
-                    return { status: 200, message: "Login successful" };
+                    return { status: 200, userType, message: "Login successful" };
                 }
                 else {
                     return { status: 400, message: "Invalid Credentials" };
@@ -87,5 +87,21 @@ export async function userLogin(currentState, formData) {
             return { status: 500, message: "Internal server error" };
         }
 
+    }
+}
+
+export async function getUser(token) {
+    try {
+        await connectDB();
+        if (!token) {
+            return null;
+        }
+        let decoded = jwt.verify(token, jwt_secret);
+        let user = await User.findById(decoded.id);
+        return user;
+    }
+    catch (err) {
+        console.log(err.message);
+        return null;
     }
 }

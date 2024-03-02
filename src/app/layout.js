@@ -1,7 +1,7 @@
-import FooterComp from "@/ui/components/footer";
 import "./globals.css";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
+import NextTopLoader from "nextjs-toploader";
 
 
 export const metadata = {
@@ -11,11 +11,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
+        <html lang="en"> 
             <body>
+                <NextTopLoader
+                    color="#000fff"
+                    showSpinner={false}
+                />
                 <ToastContainer />
                 {children}
-                <FooterComp />
             </body>
         </html>
     );

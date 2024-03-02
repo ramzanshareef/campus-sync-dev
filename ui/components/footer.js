@@ -2,20 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
-
 const FooterComp = () => {
 
-    useEffect(() => {
-        let footer = document.getElementById("footer");
-        if (document.body.scrollHeight <= window.innerHeight) {
-            footer.style.position = "absolute";
-            footer.style.bottom = "0";
-        }
-    }, []); // to make footer stick to bottom of page if content is less than window height
 
     return (
-        <footer className="text-gray-600 body-font w-full mt-4 border-t border-gray-200" id="footer">
+        <footer className="text-gray-600 body-font w-full mt-4 border-t border-gray-200" id="footer" >
             <div className="container px-5 py-12 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
                 <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
                     <Link className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
@@ -176,7 +167,7 @@ const FooterComp = () => {
                     </span>
                 </div>
             </div>
-        </footer>
+        </footer >
     );
 };
 

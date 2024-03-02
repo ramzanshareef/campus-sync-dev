@@ -10,7 +10,7 @@ export const getSession = async () => {
             httpOnly: true,
             sameSite: "strict",
             path: "/",
-            expires: 60 * 60 * 24 * 1, 
+            expires: 60 * 60 * 24 * 1,
         },
     });
     return session;

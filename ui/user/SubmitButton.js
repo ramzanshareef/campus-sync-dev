@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useFormStatus } from "react-dom";
 
 
-export function SubmitButton({ title, size }) {
+export const SubmitButton = ({ title, size }) => {
     const { pending } = useFormStatus();
 
     return (
@@ -28,7 +28,7 @@ export function SubmitButton({ title, size }) {
             </button>
         </>
     );
-}
+};
 
 SubmitButton.propTypes = {
     title: PropTypes.string.isRequired,

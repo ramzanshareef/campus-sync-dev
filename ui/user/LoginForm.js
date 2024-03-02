@@ -41,7 +41,26 @@ const LoginForm = (props) => {
                 progress: undefined,
                 onClose: () => {
                     document.getElementById("loginForm").reset();
-                    router.replace(props.redirectTo || "/");
+                    if (state?.userType === "student") {
+                        router.replace("/");
+                    }
+                    else if (state?.userType === "college") {
+                        router.replace("/college/dashboard");
+                    }
+                    else if (state?.userType === "admin") {
+                        router.replace("/admin/dashboard");
+                    }
+                    else {
+                        toast.error("Invalid User Type", {
+                            position: "top-right",
+                            autoClose: 1800,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    }
                 },
             });
         }
