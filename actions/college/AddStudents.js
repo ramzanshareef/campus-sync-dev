@@ -23,7 +23,7 @@ export const AddStudents = async (currentState, formData) => {
         await connectDB();
         students.forEach(async (student) => {
             student.college = "Chaitanya Bharathi Institute of Technology, Hyderabad"; // TODO: Change this to the college name
-            student.email = student.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@gmail.com";
+            student.email = student.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
             let password = bcryptjs.hashSync(student.rollNo.toString(), salt);
             student.password = password;
@@ -56,7 +56,7 @@ export const AddStudent = async (currentState, formData) => {
         await connectDB();
         student.forEach(async (student) => {
             student.college = "Chaitanya Bharathi Institute of Technology, Hyderabad"; // TODO: Change this to the college name
-            student.email = student.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@gmail.com";
+            student.email = student.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
             let password = bcryptjs.hashSync(student.rollNo.toString(), salt);
             student.password = password;
