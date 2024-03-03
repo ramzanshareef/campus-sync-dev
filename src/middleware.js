@@ -17,7 +17,7 @@ export async function middleware(request) {
     }
     if (authRoutes.includes(path)) {
         if (isAuth) {
-            return NextResponse.redirect(new URL("/", request.nextUrl.origin).toString());
+            return NextResponse.redirect(new URL(userType + "/dashboard", request.nextUrl.origin).toString());
         }
         return NextResponse.next();
     }
