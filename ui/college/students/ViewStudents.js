@@ -27,6 +27,14 @@ export default async function ViewAllStudents({ searchParams }) {
                         </tr>
                     </thead>
                     <tbody className="bg-white overflow-x-auto">
+                        {
+                            data?.students?.length === 0 &&
+                            <tr>
+                                <td colSpan="5" className="text-center py-3">
+                                    No students found
+                                </td>
+                            </tr>
+                        }
                         {data?.students?.map((student, index) => (
                             <tr
                                 key={index}

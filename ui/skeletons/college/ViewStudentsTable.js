@@ -27,19 +27,19 @@ const ViewAllStudentsTableSkeleton = () => {
                                     "
                         >
                             <td className="py-3 pl-6 pr-3 text-center">
-                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md"></div>
+                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md animate-pulse"></div>
                             </td>
                             <td className="text-center px-4">
-                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md"></div>
+                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md animate-pulse"></div>
                             </td>
                             <td className="text-center px-4">
-                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md"></div>
+                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md animate-pulse"></div>
                             </td>
                             <td className="text-center px-4">
-                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md"></div>
+                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md animate-pulse"></div>
                             </td>
                             <td className="text-center px-4">
-                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md"></div>
+                                <div className="w-16 h-4 ml-20 bg-gray-300 rounded-md animate-pulse"></div>
                             </td>
                         </tr>
                     ))}
