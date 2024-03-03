@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 "use client";
 
 import Image from "next/image";
@@ -43,7 +44,7 @@ const UserDropdown = ({ user }) => {
 
     return (
         <>
-            <div className="w-fit">
+            <div className="w-fit ">
                 <p
                     ref={trigger}
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -73,32 +74,36 @@ const UserDropdown = ({ user }) => {
 
                 {/* <!-- Dropdown Start --> */}
                 <div
-                    ref={dropdown}
-                    onFocus={() => setDropdownOpen(true)}
-                    onBlur={() => setDropdownOpen(false)}
-                    className={`absolute right-0 mt-2 flex w-60 z-50 flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${dropdownOpen === true ? "block" : "hidden"}`}
+                    className=""
                 >
-                    <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7 dark:border-strokedark">
-                        <li className="hover:text-indigo-600">
-                            <Link
-                                href="/profile"
-                                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-                            >
-                                <CgProfile size={22} />
-                                My Profile
-                            </Link>
-                        </li>
-                        <li className="hover:text-indigo-600">
-                            <Link
-                                href="/settings"
-                                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-                            >
-                                <IoSettingsOutline size={22} />
-                                Account Settings
-                            </Link>
-                        </li>
-                    </ul>
-                    <LogoutButton />
+                    <div
+                        ref={dropdown}
+                        onFocus={() => setDropdownOpen(true)}
+                        onBlur={() => setDropdownOpen(false)}
+                        className={`absolute right-0 mt-2 z-50 flex w-60 bg-white flex-col rounded-md border shadow-default ${dropdownOpen === true ? "block" : "hidden"}`}
+                    >
+                        <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7 dark:border-strokedark">
+                            <li className="hover:text-indigo-600">
+                                <Link
+                                    href="/profile"
+                                    className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                                >
+                                    <CgProfile size={22} />
+                                    My Profile
+                                </Link>
+                            </li>
+                            <li className="hover:text-indigo-600">
+                                <Link
+                                    href="/settings"
+                                    className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                                >
+                                    <IoSettingsOutline size={22} />
+                                    Account Settings
+                                </Link>
+                            </li>
+                        </ul>
+                        <LogoutButton />
+                    </div>
                 </div>
             </div></>
     );

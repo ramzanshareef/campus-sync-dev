@@ -31,7 +31,7 @@ const BreadCumbs = () => {
             <nav aria-label="breadcrumb" className="w-max mx-4">
                 <ol className="flex flex-wrap items-center w-full px-4 py-2 rounded-md bg-blue-gray-50 bg-opacity-60 border border-gray-300 bg-gray-200 shadow-sm">
                     <li>
-                        <Link href="/college/dashboard"
+                        <Link href="/"
                             className="flex items-center font-sans text-sm antialiased font-normal leading-normal transition-colors duration-300 cursor-pointer text-blue-gray-900 hover:text-light-blue-500"
                         >
                             Home

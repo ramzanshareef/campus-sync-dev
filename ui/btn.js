@@ -3,7 +3,24 @@
 import { decrease, increase, logout } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 import "react-toastify/dist/ReactToastify.css";
+
+export const DefaultButton = ({ title, className }) => {
+    return (
+        <button
+            className={` bg-indigo-500 m-6 hover:bg-indigo-700 text-white py-1.5 px-3 rounded-md + ${className} `}
+        >
+            {title}
+        </button>
+    );
+};
+
+DefaultButton.propTypes = {
+    title: PropTypes.string.isRequired,
+    className: PropTypes.string,
+};
+
 
 export const Butoon = () => {
     return (
@@ -53,6 +70,36 @@ export const LogoutButton = () => {
             }}
         >
             Logout
+        </button>
+    );
+};
+
+export const AddStudentButton = () => {
+    const router = useRouter();
+    return (
+        <button
+            className="bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4 rounded-md my-4 mr-2"
+            onClick={async (e) => {
+                e.preventDefault();
+                router.push("/college/students/add");
+            }}
+        >
+            Add Students
+        </button>
+    );
+};
+
+export const ViewStudentsButton = () => {
+    const router = useRouter();
+    return (
+        <button
+            className="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded-md my-4"
+            onClick={async (e) => {
+                e.preventDefault();
+                router.push("/college/students/view");
+            }}
+        >
+            View All Students
         </button>
     );
 };

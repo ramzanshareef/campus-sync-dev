@@ -1,6 +1,6 @@
 import BreadCumbs from "@/ui/components/BreadCumbs";
-import CollegeDashboardTopBar from "@/ui/components/college/sidebar/Topbar";
-import Sidebar from "@/ui/components/college/sidebar/sidebarComp";
+import CollegeDashboardTopBar from "@/ui/college/sidebar/Topbar";
+import Sidebar from "@/ui/college/sidebar/sidebarComp";
 import PropTypes from "prop-types";
 
 
