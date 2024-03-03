@@ -42,13 +42,13 @@ const LoginForm = (props) => {
                 onClose: () => {
                     document.getElementById("loginForm").reset();
                     if (state?.userType === "student") {
-                        router.replace("/");
+                        router.replace(props.redirectTo || "/student/dashboard");
                     }
                     else if (state?.userType === "college") {
-                        router.replace("/college/dashboard");
+                        router.replace(props.redirectTo || "/college/dashboard");
                     }
                     else if (state?.userType === "admin") {
-                        router.replace("/admin/dashboard");
+                        router.replace(props.redirectTo || "/admin/dashboard");
                     }
                     else {
                         toast.error("Invalid User Type", {

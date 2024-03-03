@@ -5,8 +5,14 @@ import SearchBar from "./SearchBar";
 
 export default async function CollegeDashboardTopBar() {
     const session = await getSession();
-    const user = await getUser(session?.token);
-
+    const user = await (await getUser(session?.token))?.user;
+    let defUser = {
+        name: "User",
+        email: ""
+    };
+    if (user) {
+        defUser = user;
+    }
 
     return (
         <>
@@ -15,9 +21,9 @@ export default async function CollegeDashboardTopBar() {
 
                     <SearchBar />
 
-                    <UserDropdown user={JSON.parse(JSON.stringify(user))} />
+                    <UserDropdown user={defUser} />
                 </div>
-                
+
             </div>
         </>
     );

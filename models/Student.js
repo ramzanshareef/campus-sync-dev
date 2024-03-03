@@ -14,11 +14,6 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    userType: {
-        type: String,
-        required: true,
-        default: "student"
-    },
     college: {
         type: String,
         default : "N/A"
