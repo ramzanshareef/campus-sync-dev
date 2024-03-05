@@ -17,9 +17,12 @@
     "next-session": "^4.0.5",
     "nextjs-toploader": "^1.6.6",
     "react": "^18",
+    "react-animated-numbers": "^0.18.0",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
+    "react-multilevel-dropdown": "^4.0.0",
     "react-toastify": "^10.0.4",
+    "sass": "^1.71.1",
     "xlsx": "^0.18.5",
     "zustand": "^4.5.2"
   },

@@ -1,8 +1,10 @@
+"use client";
+
 import FooterComp from "@/ui/components/footer";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function NotFound() {
+export default function NotFound() {
     return (
         <div className="overflow-hidden">
             <div className="h-screen w-screen bg-gray-50 flex items-center">
@@ -16,6 +18,12 @@ export default async function NotFound() {
                         <Link
                             href={"/"}
                             className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-indigo-600 active:bg-indigo-700 hover:bg-indigo-700 ">Go Home</Link>
+                        <button
+                            className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-indigo-600 active:bg-indigo-700 hover:bg-indigo-700 ml-2"
+                            onClick={() => window.history.back()}
+                        >
+                            Go Back
+                        </button>
                     </div>
                     <div className="w-full lg:flex lg:justify-end lg:w-1/2 mx-5 my-12">
                         <Image src="/404.svg"

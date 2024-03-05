@@ -5,16 +5,14 @@ import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { InstructionsBeforeCollegeUploadStudentsModal } from "@/ui/components/modals/FileUploadInstructions";
-import { AddStudent, AddStudents } from "@/actions/college/Students";
+import { InstructionsBeforeCollegeUploadFacultyModal } from "@/ui/components/modals/FileUploadInstructions";
+import { AddFaculties, AddFaculty } from "@/actions/college/Faculty";
 
 const xlsx = require("xlsx");
 
-export default function AddStudentComp() {
-    const [bulkUploadState, addStudentsAction] = useFormState(AddStudents, null);
-    const [state, addStudentAction] = useFormState(AddStudent, null);
-    const [year, setYear] = useState("");
-    const [semSelectValues, setSemSelectValues] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+export default function AddFacultyComp() {
+    const [bulkUploadState, addFacultiesAction] = useFormState(AddFaculties, null);
+    const [state, addFacultyAction] = useFormState(AddFaculty, null);
 
     const [data, setData] = useState([]);
     const [showInstructions, setShowInstructions] = useState(false);
@@ -25,7 +23,7 @@ export default function AddStudentComp() {
                 position: "top-right",
                 autoClose: 1200,
                 onClose: () => {
-                    document.getElementById("addStudentsForm")?.reset();
+                    document.getElementById("addFacultiesForm")?.reset();
                     setData([]);
                 },
             });
@@ -35,7 +33,7 @@ export default function AddStudentComp() {
                 position: "top-right",
                 autoClose: 1200,
                 onClose: () => {
-                    document.getElementById("addStudentsForm").reset();
+                    document.getElementById("addFacultiesForm").reset();
                     setData([]);
                 },
             });
@@ -48,7 +46,7 @@ export default function AddStudentComp() {
                 position: "top-right",
                 autoClose: 1200,
                 onClose: () => {
-                    document.getElementById("addStudentForm")?.reset();
+                    document.getElementById("facultyToAdd")?.reset();
                 },
             });
         }
@@ -57,7 +55,7 @@ export default function AddStudentComp() {
                 position: "top-right",
                 autoClose: 1200,
                 onClose: () => {
-                    document.getElementById("addStudentForm").reset();
+                    document.getElementById("facultyToAdd").reset();
                 },
             });
         }
@@ -67,12 +65,12 @@ export default function AddStudentComp() {
         <>
             <div className="flex flex-col justify-center">
                 <h2 className="text-2xl my-4 flex flex-col">
-                    Add Student
+                    Add Faculty
                 </h2>
-                <form action={addStudentAction} id="addStudentForm"
+                <form action={addFacultyAction} id="facultyToAdd"
                     className="space-y-2"
                 >
-                    <div className="flex flex-row flex-wrap justify-between gap-y-4">
+                    <div className="flex flex-row flex-wrap justify-start gap-x-6 gap-y-4">
                         <div className="flex flex-col">
                             <label htmlFor="name">Name</label>
                             <input
@@ -116,74 +114,8 @@ export default function AddStudentComp() {
                                 </option>
                             </select>
                         </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="year">Year</label>
-                            <select name="year"
-                                className="block h-9 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50"
-                                required={true}
-                                value={year}
-                                onChange={(e) => {
-                                    setYear(e.target.value);
-                                    if (e.target.value === "1") {
-                                        setSemSelectValues([1, 2]);
-                                    }
-                                    else if (e.target.value === "2") {
-                                        setSemSelectValues([3, 4]);
-                                    }
-                                    else if (e.target.value === "3") {
-                                        setSemSelectValues([5, 6]);
-                                    }
-                                    else if (e.target.value === "4") {
-                                        setSemSelectValues([7, 8]);
-                                    }
-                                }}
-                            >
-                                <option value=""
-                                    className="max-md:text-sm"
-                                >Select Year</option>
-                                <option value="1"
-                                    className="max-md:text-sm"
-                                >1</option>
-                                <option value="2"
-                                    className="max-md:text-sm"
-                                >2</option>
-                                <option value="3"
-                                    className="max-md:text-sm"
-                                >3</option>
-                                <option value="4"
-                                    className="max-md:text-sm"
-                                >4</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="semester">Semester</label>
-                            <select name="semester"
-                                className="block h-9 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50"
-                                defaultValue={""}
-                                required={true}
-                            >
-                                <option value=""
-                                    className="max-md:text-sm"
-                                >Select Semester</option>
-                                {semSelectValues.map((sem, i) => (
-                                    <option key={i} value={sem}
-                                        className="max-md:text-sm"
-                                    >{sem}</option>
-                                ))}
-                            </select>
-
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="rollNo">Roll Number</label>
-                            <input
-                                required={true}
-                                type="number"
-                                name="rollNo"
-                                className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50"
-                            />
-                        </div>
                     </div>
-                    <SubmitButton title="Add Student" size="fit" />
+                    <SubmitButton title="Add Faculty" size="fit" />
                 </form>
             </div>
 
@@ -198,14 +130,14 @@ export default function AddStudentComp() {
                         Click Here before uploading
                     </span>
                 </h2>
-                <form action={addStudentsAction} id="addStudentsForm"
+                <form action={addFacultiesAction} id="addFacultiesForm"
                     className="max-w-md mx-auto flex flex-col justify-center items-center gap-y-4"
                 >
                     <input
                         id="image"
                         required={true}
                         type="file"
-                        name="students"
+                        name="facultiesToAdd"
                         accept=".xlsx"
                         onChange={(e) => {
                             const file = e.target.files[0];
@@ -222,11 +154,10 @@ export default function AddStudentComp() {
                         }
                         }
                     />
-                    <input type="hidden" name="studentsToAdd"
+                    <input type="hidden" name="facultyToAdd"
                         value={data}
-
                     />
-                    <SubmitButton title="Add Students" size="fit" />
+                    <SubmitButton title="Add Faculties" size="fit" />
                 </form>
             </div>
             <div className="flex flex-col justify-center">
@@ -253,7 +184,7 @@ export default function AddStudentComp() {
                 </div>
             </div>
 
-            <InstructionsBeforeCollegeUploadStudentsModal
+            <InstructionsBeforeCollegeUploadFacultyModal
                 isOpen={showInstructions}
                 onClose={() => setShowInstructions(false)}
             />

@@ -51,7 +51,7 @@ export const LogoutButton = () => {
     const router = useRouter();
     return (
         <button
-            className="bg-indigo-500 m-6 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full"
+            className="bg-indigo-500 m-6 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-full"
             onClick={async (e) => {
                 e.preventDefault();
                 await logout();
@@ -100,6 +100,36 @@ export const ViewStudentsButton = () => {
             }}
         >
             View All Students
+        </button>
+    );
+};
+
+export const AddFacultyButton = () => {
+    const router = useRouter();
+    return (
+        <button
+            className="bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4 rounded-md my-4 mr-2"
+            onClick={async (e) => {
+                e.preventDefault();
+                router.push("/college/faculty/add");
+            }}
+        >
+            Add Faculty
+        </button>
+    );
+};
+
+export const ViewFacultyButton = () => {
+    const router = useRouter();
+    return (
+        <button
+            className="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded-md my-4"
+            onClick={async (e) => {
+                e.preventDefault();
+                router.push("/college/faculty/view");
+            }}
+        >
+            View All Faculty
         </button>
     );
 };

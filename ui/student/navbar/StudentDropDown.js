@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LogoutButton } from "@/ui/btn";
 
-const UserDropdown = ({ user }) => {
+const StudentDropdown = ({ user }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const trigger = useRef(null);
@@ -44,16 +44,16 @@ const UserDropdown = ({ user }) => {
 
     return (
         <>
-            <div className="w-fit ">
+            <div className="w-fit">
                 <p
                     ref={trigger}
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center gap-4 cursor-pointer"
                     href={"#"}
                 >
-                    <span className="hidden text-right lg:block">
-                        <span className="block text-sm font-medium text-black dark:text-white">
-                            {user?.name}
+                    <span className="hidden text-right sm:block">
+                        <span className="block text-sm font-medium text-white">
+                            Welcome, {user?.name}
                         </span>
                     </span>
 
@@ -70,17 +70,15 @@ const UserDropdown = ({ user }) => {
                         />
                     </span>
                     <MdKeyboardArrowDown size={20}
-                        className={`text-black dark:text-white ${dropdownOpen === true ? "hidden" : "block"}`}
+                        className={dropdownOpen === true ? "hidden" : "text-white"}
                     />
                     <MdKeyboardArrowUp size={20}
-                        className={`text-black dark:text-white ${dropdownOpen === true ? "block" : "hidden"}`}
+                        className={dropdownOpen === true ? "text-white" : "hidden"}
                     />
                 </p>
 
                 {/* <!-- Dropdown Start --> */}
-                <div
-                    className=""
-                >
+                <div>
                     <div
                         ref={dropdown}
                         onFocus={() => setDropdownOpen(true)}
@@ -90,7 +88,7 @@ const UserDropdown = ({ user }) => {
                         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7 dark:border-strokedark">
                             <li className="hover:text-indigo-600">
                                 <Link
-                                    href="/college/profile"
+                                    href="/profile"
                                     className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
                                 >
                                     <CgProfile size={22} />
@@ -114,9 +112,9 @@ const UserDropdown = ({ user }) => {
     );
 };
 
-UserDropdown.PropTypes = {
+StudentDropdown.PropTypes = {
     user: PropTypes.object,
 };
 
 
-export default UserDropdown;
+export default StudentDropdown;

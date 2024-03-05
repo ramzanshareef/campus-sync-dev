@@ -20,3 +20,6 @@ node_modules
 # git
 .git
 .gitignore
+
+# project data info files
+.notes

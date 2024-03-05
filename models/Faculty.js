@@ -15,12 +15,13 @@ const facultySchema = new mongoose.Schema({
         required: true,
     },
     college: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "college",
-        required: true,
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "college",
+        // required: true,
     },
     subjects: {
-        tpye: [String],
+        type: [String],
     },
     department: {
         type: String,
