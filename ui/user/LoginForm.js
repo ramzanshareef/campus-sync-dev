@@ -45,7 +45,6 @@ const LoginForm = (props) => {
                         router.replace(props.redirectTo || "/student/dashboard");
                     }
                     else if (state?.userType === "college") {
-                        console.log("I am here" + state?.userType, props.redirectTo);
                         router.replace(props.redirectTo || "/college/dashboard");
                     }
                     else if (state?.userType === "faculty") {

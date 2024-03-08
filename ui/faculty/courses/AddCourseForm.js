@@ -23,12 +23,12 @@ const AddCourseForm = ({ students }) => {
             if (state.status === 200) {
                 toast.success(state.message, {
                     onClose: () => {
-                        document.getElementById("addCourseForm").reset();
+                        document.getElementById("addCourseForm")?.reset();
                         setSelectedStudents(null);
 
                     },
                     onClick: () => {
-                        document.getElementById("addCourseForm").reset();
+                        document.getElementById("addCourseForm")?.reset();
                         setSelectedStudents(null);
                     }
                 });

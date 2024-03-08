@@ -64,3 +64,71 @@ export async function addNewCourse(currentState, formData) {
         };
     }
 }
+
+export async function getAllCourses() {
+    try {
+        let currUser = await getSession();
+        if (!currUser || currUser.userType !== "faculty" || !currUser.token || !currUser.isAuth) {
+            return {
+                status: 401,
+                message: "Unauthorized"
+            };
+        }
+        let user = await getUser(currUser.token);
+        if (!user || user.userType !== "faculty" || !user.user) {
+            return {
+                status: 401,
+                message: "Unauthorized"
+            };
+        }
+        await connectDB();
+        let courses = await Course.find({ faculty: user.user._id });
+        return {
+            status: 200,
+            courses
+        };
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}
+
+export async function getCourse(courseID) {
+    try {
+        let currUser = await getSession();
+        if (!currUser || currUser.userType !== "faculty" || !currUser.token || !currUser.isAuth) {
+            return {
+                status: 401,
+                message: "Unauthorized"
+            };
+        }
+        let user = await getUser(currUser.token);
+        if (!user || user.userType !== "faculty" || !user.user) {
+            return {
+                status: 401,
+                message: "Unauthorized"
+            };
+        }
+        await connectDB();
+        let course = await Course.findOne({ _id: courseID, faculty: user.user._id }).populate("students");
+        if (!course) {
+            return {
+                status: 404,
+                message: "Course Not Found"
+            };
+        }
+        return {
+            status: 200,
+            course
+        };
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}
