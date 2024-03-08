@@ -11,13 +11,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en"> 
+        <html lang="en">
             <body>
                 <NextTopLoader
                     color="#000fff"
                     showSpinner={false}
                 />
-                <ToastContainer />
+                <ToastContainer
+                    autoClose={1800}
+                    newestOnTop={true}
+                    closeOnClick
+                    rtl={false}
+                />
                 {children}
             </body>
         </html>

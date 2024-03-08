@@ -28,8 +28,8 @@ export default function AddFacultyComp() {
                 },
             });
         }
-        else if (bulkUploadState?.status === 400) {
-            toast.error("Please check the Data", {
+        else {
+            toast.error(state?.message, {
                 position: "top-right",
                 autoClose: 1200,
                 onClose: () => {

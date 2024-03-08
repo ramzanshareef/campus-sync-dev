@@ -48,8 +48,8 @@ const LoginForm = (props) => {
                         console.log("I am here" + state?.userType, props.redirectTo);
                         router.replace(props.redirectTo || "/college/dashboard");
                     }
-                    else if (state?.userType === "admin") {
-                        router.replace(props.redirectTo || "/admin/dashboard");
+                    else if (state?.userType === "faculty") {
+                        router.replace(props.redirectTo || "/faculty/dashboard");
                     }
                     else {
                         toast.error("Invalid User Type", {
@@ -144,10 +144,10 @@ const LoginForm = (props) => {
                                         <label htmlFor="college"
                                             className="text-sm"
                                         >College</label>
-                                        <input type="radio" name="userType" id="admin" value="admin" required title="Please Select User Type" />
-                                        <label htmlFor="admin"
+                                        <input type="radio" name="userType" id="faculty" value="faculty" required title="Please Select User Type" />
+                                        <label htmlFor="faculty"
                                             className="text-sm"
-                                        >Admin</label>
+                                        >Faculty</label>
                                     </div>
                                 </div>
                                 <div>

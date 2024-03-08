@@ -63,7 +63,7 @@ export const AddFaculties = async (currentState, formData) => {
             faculty.college = "Chaitanya Bharathi Institute of Technology"; // TODO : Change this to the college name
             faculty.email = faculty.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.name.split(" ").map((word) => word.toLowerCase()).join("") + ".faculty" + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
-            let password = bcryptjs.hashSync(faculty.name.toString(), salt);
+            let password = bcryptjs.hashSync(faculty.name.split(" ").map((word) => word.toLowerCase()).join(""), salt);
             faculty.password = password;
         });
         await Faculty.insertMany(faculties).catch((e) => {
@@ -83,19 +83,19 @@ export const AddFaculties = async (currentState, formData) => {
 
 export const AddFaculty = async (currentState, formData) => {
     const faculty = [];
-    let token = await (await getSession()).token;
-    if (!token) {
-        return { status: 401, message: "Unauthorized" };
-    }
-    let id = await (jwt.verify(token, JWT_SECRET)).id;
-    if (!id) {
-        return { status: 401, message: "Unauthorized" };
-    }
-    let collegeName = await College.findById(id);
-    if (!collegeName) {
-        return { status: 404, message: "College not found" };
-    }
-    console.log(collegeName.college, id);
+    // let token = await (await getSession()).token;
+    // if (!token) {
+    //     return { status: 401, message: "Unauthorized" };
+    // }
+    // let id = await (jwt.verify(token, JWT_SECRET)).id;
+    // if (!id) {
+    //     return { status: 401, message: "Unauthorized" };
+    // }
+    // let collegeName = await College.findById(id);
+    // if (!collegeName) {
+    //     return { status: 404, message: "College not found" };
+    // }
+    // console.log(collegeName.college, id);
 
     faculty.push({
         name: formData.get("name").split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
@@ -105,9 +105,9 @@ export const AddFaculty = async (currentState, formData) => {
         await connectDB();
         faculty.forEach(async (faculty) => {
             faculty.college = "Chaitanya Bharathi Institute of Technology"; // TODO : Change this to the college name
-            faculty.email = faculty.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.rollNo + "@campus.sync";
+            faculty.email = faculty.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.name.split(" ").map((word) => word.toLowerCase()).join("") + ".faculty" + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
-            let password = bcryptjs.hashSync(faculty.name.toString(), salt);
+            let password = bcryptjs.hashSync(faculty.name.split(" ").map((word) => word.toLowerCase()).join(""), salt);
             faculty.password = password;
         });
         let exisFaculty = await Faculty.findOne({ email: faculty[0].email });

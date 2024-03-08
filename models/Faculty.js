@@ -20,8 +20,8 @@ const facultySchema = new mongoose.Schema({
         // ref: "college",
         // required: true,
     },
-    subjects: {
-        type: [String],
+    courses: {
+        type: [mongoose.Schema.Types.ObjectId],
     },
     department: {
         type: String,
