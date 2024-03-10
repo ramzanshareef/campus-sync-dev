@@ -2,12 +2,17 @@
 
 import Course from "@/models/Course";
 import connectDB from "../connectDB";
-import { getSession } from "@/src/lib/session";
-import { getUser } from "../user/auth";
+import { isFacultyUser } from "../user/auth";
+import { uploadImageforNewCourse } from "../images/upload";
+import { revalidatePath } from "next/cache";
 
 export async function addNewCourse(currentState, formData) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
-        if (formData.get("courseName") === "" || formData.get("courseCode") === "" || formData.get("courseDescription") === "" || formData.getAll("students").length === 0 || !formData.get("courseName") || !formData.get("courseCode") || !formData.get("courseDescription") || !formData.getAll("students")) {
+        if (formData.get("courseName") === "" || formData.get("courseCode") === "" || formData.get("courseDescription") === "" || formData.getAll("students").length === 0 || !formData.get("courseName") || !formData.get("courseCode") || !formData.get("courseDescription") || ((formData.getAll("students")[0] !== "") === false) || !formData.get("courseDepartment")) {
             return {
                 status: 400,
                 message: "Bad Request"
@@ -16,34 +21,32 @@ export async function addNewCourse(currentState, formData) {
         let data = {
             name: formData.get("courseName"),
             code: formData.get("courseCode"),
-            description: formData.get("courseDescription")
+            description: formData.get("courseDescription"),
+            department: formData.get("courseDepartment")
         };
         let students = [];
         formData.getAll("students").forEach((student) => {
-            students.push(student);
+            if (student !== "*") {
+                students.push(student);
+            }
         });
         data.students = students;
-        let currUser = await getSession();
-        if (!currUser || currUser.userType !== "faculty" || !currUser.token || !currUser.isAuth) {
-            return {
-                status: 401,
-                message: "Unauthorized"
-            };
-        }
-        let user = await getUser(currUser.token);
-        if (!user || user.userType !== "faculty" || !user.user) {
-            return {
-                status: 401,
-                message: "Unauthorized"
-            };
-        }
-        data.faculty = user.user._id;
+        data.faculty = isAuth.user._id;
         await connectDB();
-        let exisCourse = await Course.findOne({ code: data.code });
-        if (exisCourse) {
+        let exisCourse = await Course.findOne({
+            code: data.code,
+            faculty: data.faculty
+        });
+        let res = await uploadImageforNewCourse(formData);
+        if (res.status === 200) {
+            data.image = res.imageURL;
+        }
+        if (exisCourse && res.status === 200) {
             exisCourse.name = data.name;
             exisCourse.description = data.description;
             exisCourse.students = data.students;
+            exisCourse.image = data.image;
+            exisCourse.department = data.department;
             await exisCourse.save();
             return {
                 status: 200,
@@ -52,12 +55,14 @@ export async function addNewCourse(currentState, formData) {
         }
         let course = await new Course(data);
         await course.save();
+        revalidatePath("/faculty/courses");
         return {
             status: 200,
             message: "Course Added Successfully"
         };
     }
     catch (error) {
+        console.log(error.message);
         return {
             status: 500,
             message: "Internal Server Error" + error.message
@@ -66,23 +71,13 @@ export async function addNewCourse(currentState, formData) {
 }
 
 export async function getAllCourses() {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
-        let currUser = await getSession();
-        if (!currUser || currUser.userType !== "faculty" || !currUser.token || !currUser.isAuth) {
-            return {
-                status: 401,
-                message: "Unauthorized"
-            };
-        }
-        let user = await getUser(currUser.token);
-        if (!user || user.userType !== "faculty" || !user.user) {
-            return {
-                status: 401,
-                message: "Unauthorized"
-            };
-        }
         await connectDB();
-        let courses = await Course.find({ faculty: user.user._id });
+        let courses = await Course.find({ faculty: isAuth.user._id });
         return {
             status: 200,
             courses
@@ -97,23 +92,16 @@ export async function getAllCourses() {
 }
 
 export async function getCourse(courseID) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
-        let currUser = await getSession();
-        if (!currUser || currUser.userType !== "faculty" || !currUser.token || !currUser.isAuth) {
-            return {
-                status: 401,
-                message: "Unauthorized"
-            };
-        }
-        let user = await getUser(currUser.token);
-        if (!user || user.userType !== "faculty" || !user.user) {
-            return {
-                status: 401,
-                message: "Unauthorized"
-            };
-        }
         await connectDB();
-        let course = await Course.findOne({ _id: courseID, faculty: user.user._id }).populate("students");
+        let course = await Course.findOne({ _id: courseID, faculty: isAuth.user._id }).populate({
+            path: "students faculty",
+            select: "-password",
+        }).exec();
         if (!course) {
             return {
                 status: 404,
@@ -123,6 +111,90 @@ export async function getCourse(courseID) {
         return {
             status: 200,
             course
+        };
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}
+
+export async function removeStudentFromCourse(studentID, courseID) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
+    try {
+        let faculty = isAuth.user._id;
+        let course = await Course.findOne({
+            _id: courseID,
+            faculty
+        });
+        if (!course) {
+            return {
+                status: 404,
+                message: "Course Not Found"
+            };
+        }
+        let students = course.students;
+        let index = students.indexOf(studentID);
+        if (index === -1) {
+            return {
+                status: 404,
+                message: "Student Not Found"
+            };
+        }
+        students.splice(index, 1);
+        course.students = students;
+        await course.save();
+        revalidatePath("/faculty/courses/view?courseID=" + courseID + "&tab=4");
+        return {
+            status: 200,
+            message: "Student Removed Successfully"
+        };
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}
+
+export async function addStudentsToCourse(courseID, students) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
+    try {
+        await connectDB();
+        let faculty = isAuth.user._id;
+        let course = await Course.findOne({
+            _id: courseID,
+            faculty
+        });
+        if (!course) {
+            return {
+                status: 404,
+                message: "Course Not Found"
+            };
+        }
+        let allStudents = course.students;
+        students.forEach((student) => {
+            if (!allStudents.includes(student.value)) {
+                if (student.value !== "*") {
+                    allStudents.push(student.value);
+                }
+            }
+        });
+        course.students = allStudents;
+        await course.save();
+        revalidatePath("/faculty/courses/view?courseID=" + courseID + "&tab=4");
+        return {
+            status: 200,
+            message: "Students Added Successfully"
         };
     }
     catch (error) {

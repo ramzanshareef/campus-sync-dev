@@ -1,21 +1,17 @@
-import { getSession } from "@/src/lib/session";
-import { getUser } from "@/actions/user/auth";
+import { isStudentUser } from "@/actions/user/auth";
 import StudentDropdown from "./StudentDropDown";
 import StudentNavbarActivities from "./NavbarActivities";
 import Image from "next/image";
 import Link from "next/link";
-// import UserDropdown from "./UserDropdown";
-// import SearchBar from "./SearchBar";
 
 export default async function StudentNavbarComp() {
-    const session = await getSession();
-    const user = await (await getUser(session?.token))?.user;
+    let isAuth = await isStudentUser();
     let defUser = {
         name: "User",
         email: ""
     };
-    if (user) {
-        defUser = user;
+    if (isAuth.status === 200) {
+        defUser = isAuth.user;
     }
 
     return (

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { CiLocationOn } from "react-icons/ci";
 import { SlCalender } from "react-icons/sl";
+import PropTypes from "prop-types";
 
 
-const ProfileTop = () => {
+const ProfileTop = ({ college }) => {
     return (
         <>
             <div className="p-0 rounded-lg shadow-xl overflow-hidden">
@@ -15,7 +16,11 @@ const ProfileTop = () => {
                 </div>
                 <div className="-mt-20 md:ml-40 max-md:mt-2 text-wrap text-gray-600 font-thin">
                     <h2 className="text-lg font-bold max-md:text-center max-md:px-2">
-                        Chaitanya Bharathi Institute of Technology
+                        {
+                            (college.college !== "N/A") ? college.college : <p className="text-red-600 animate-pulse">
+                                😥 Please add your college name!
+                            </p>
+                        }
                     </h2>
                     <div className="flex flex-row flex-wrap max-md:justify-center gap-x-3 gap-y-4 mt-2 max-md:px-4 py-4">
                         <div className="flex items-center gap-x-2">
@@ -33,6 +38,10 @@ const ProfileTop = () => {
             </div>
         </>
     );
+};
+
+ProfileTop.propTypes = {
+    college: PropTypes.object.isRequired,
 };
 
 export default ProfileTop;

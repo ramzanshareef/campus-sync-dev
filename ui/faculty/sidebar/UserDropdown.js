@@ -49,7 +49,6 @@ const UserDropdown = ({ user }) => {
                     ref={trigger}
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center gap-4 cursor-pointer"
-                    href={"#"}
                 >
                     <span className="hidden text-right md:block">
                         <span className="block text-sm font-medium text-black dark:text-white">
@@ -90,7 +89,7 @@ const UserDropdown = ({ user }) => {
                         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7 dark:border-strokedark">
                             <li className="hover:text-indigo-600">
                                 <Link
-                                    href="/college/profile"
+                                    href="/faculty/profile"
                                     className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
                                 >
                                     <CgProfile size={22} />

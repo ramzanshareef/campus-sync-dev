@@ -34,5 +34,4 @@ export const SubmitButton = ({ title, size }) => {
 SubmitButton.propTypes = {
     title: PropTypes.string.isRequired,
     size: PropTypes.string.isRequired,
-    variant: PropTypes.string,
 };

@@ -15,10 +15,9 @@ const facultySchema = new mongoose.Schema({
         required: true,
     },
     college: {
-        type: String,
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: "college",
-        // required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "college",
+        required: true,
     },
     courses: {
         type: [mongoose.Schema.Types.ObjectId],

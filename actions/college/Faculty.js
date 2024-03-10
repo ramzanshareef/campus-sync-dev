@@ -4,16 +4,18 @@ import { revalidatePath } from "next/cache";
 import connectDB from "../connectDB";
 import Faculty from "@/models/Faculty";
 import { getSession } from "@/src/lib/session";
-import College from "@/models/College";
+import { isCollegeUser } from "../user/auth";
 
 const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET;
 
 export const getTotalFacultyDetails = async () => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
         await connectDB();
-        let totalFaculty = await Faculty.countDocuments({});
+        let totalFaculty = await Faculty.countDocuments({ college: isAuth.user._id });
         return { totalFaculty };
     }
     catch (e) {
@@ -25,17 +27,22 @@ export const getTotalFacultyDetails = async () => {
     }
 };
 
-export const getAllFacultyDetails = async (currentPage, college) => {
+export const getAllFacultyDetails = async (currentPage) => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
+        let college = isAuth.user._id;
         await connectDB();
         if (college) {
-            let faculties = await Faculty.find({ college }).sort({ rollNo: 1 }).skip((currentPage - 1) * 5).limit(5);
+            let faculties = await Faculty.find({ college }).skip((currentPage - 1) * 5).limit(5);
             let length = await Faculty.countDocuments({ college });
             revalidatePath("/college/faculty/view");
             return { status: 200, faculties: JSON.parse(JSON.stringify(faculties)), length };
         }
         let faculties = await Faculty.find({}).skip((currentPage - 1) * 5).limit(5);
-        let length = await Faculty.countDocuments({});
+        let length = await Faculty.countDocuments({ college });
         revalidatePath("/college/faculty/view");
         return { status: 200, faculties: JSON.parse(JSON.stringify(faculties)), length };
     }
@@ -48,6 +55,10 @@ export const getAllFacultyDetails = async (currentPage, college) => {
 };
 
 export const AddFaculties = async (currentState, formData) => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     const facultiesFormData = formData.get("facultyToAdd");
     const dem = facultiesFormData.split(",").splice(2, facultiesFormData.length - 1);
     const faculties = [];
@@ -60,8 +71,8 @@ export const AddFaculties = async (currentState, formData) => {
     try {
         await connectDB();
         faculties.forEach(async (faculty) => {
-            faculty.college = "Chaitanya Bharathi Institute of Technology"; // TODO : Change this to the college name
-            faculty.email = faculty.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.name.split(" ").map((word) => word.toLowerCase()).join("") + ".faculty" + "@campus.sync";
+            faculty.college = isAuth.user._id;
+            faculty.email = isAuth.user.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.name.split(" ").map((word) => word.toLowerCase()).join("") + ".faculty" + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
             let password = bcryptjs.hashSync(faculty.name.split(" ").map((word) => word.toLowerCase()).join(""), salt);
             faculty.password = password;
@@ -82,21 +93,11 @@ export const AddFaculties = async (currentState, formData) => {
 };
 
 export const AddFaculty = async (currentState, formData) => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     const faculty = [];
-    // let token = await (await getSession()).token;
-    // if (!token) {
-    //     return { status: 401, message: "Unauthorized" };
-    // }
-    // let id = await (jwt.verify(token, JWT_SECRET)).id;
-    // if (!id) {
-    //     return { status: 401, message: "Unauthorized" };
-    // }
-    // let collegeName = await College.findById(id);
-    // if (!collegeName) {
-    //     return { status: 404, message: "College not found" };
-    // }
-    // console.log(collegeName.college, id);
-
     faculty.push({
         name: formData.get("name").split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
         department: formData.get("department").split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
@@ -104,8 +105,8 @@ export const AddFaculty = async (currentState, formData) => {
     try {
         await connectDB();
         faculty.forEach(async (faculty) => {
-            faculty.college = "Chaitanya Bharathi Institute of Technology"; // TODO : Change this to the college name
-            faculty.email = faculty.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.name.split(" ").map((word) => word.toLowerCase()).join("") + ".faculty" + "@campus.sync";
+            faculty.college = isAuth.user._id;
+            faculty.email = isAuth.user.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + faculty.name.split(" ").map((word) => word.toLowerCase()).join("") + ".faculty" + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
             let password = bcryptjs.hashSync(faculty.name.split(" ").map((word) => word.toLowerCase()).join(""), salt);
             faculty.password = password;

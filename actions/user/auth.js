@@ -224,3 +224,54 @@ export async function getUser(token) {
         return null;
     }
 }
+
+export async function isStudentUser() {
+    let session = await getSession();
+    if (session) {
+        if (session.userType === "student") {
+            let user = await getUser(session.token);
+            user = JSON.parse(JSON.stringify(user.user));
+            return { status: 200, user: user };
+        }
+        else {
+            return { status: 400 };
+        }
+    }
+    else {
+        return { status: 400 };
+    }
+}
+
+export async function isCollegeUser() {
+    let session = await getSession();
+    if (session) {
+        if (session.userType === "college") {
+            let user = await getUser(session.token);
+            user = JSON.parse(JSON.stringify(user.user));
+            return { status: 200, user: user };
+        }
+        else {
+            return { status: 400 };
+        }
+    }
+    else {
+        return { status: 400 };
+    }
+}
+
+export async function isFacultyUser() {
+    let session = await getSession();
+    if (session) {
+        if (session.userType === "faculty") {
+            let user = await getUser(session.token);
+            user = JSON.parse(JSON.stringify(user.user));
+            return { status: 200, user: user };
+        }
+        else {
+            return { status: 400 };
+        }
+    }
+    else {
+        return { status: 400 };
+    }
+}

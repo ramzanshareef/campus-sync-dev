@@ -50,6 +50,9 @@ const AllCoursesTable = ({ courses, searchParams }) => {
                                     [&:last-child>td:first-child]:rounded-bl-2xl
                                     [&:last-child>td:last-child]:rounded-br-2xl
                                     "
+                            onClick={() => {
+                                router.push(`/faculty/courses/view?courseID=${course._id}`);
+                            }}
                         >
                             <td className="py-3 pl-6 pr-3 text-center">
                                 {course.name}
@@ -64,15 +67,14 @@ const AllCoursesTable = ({ courses, searchParams }) => {
                                 {course.students.length}
                             </td>
                             <td className="text-center px-4">
-                                <p
-                                    className="flex justify-center gap-x-2 text-green-600 hover:underline-offset-2 hover:underline"
+                                <div
+                                    className="flex flex-row items-center justify-center gap-x-2 max-md:gap-x-4 text-green-600 hover:underline-offset-2 hover:underline"
                                     onClick={() => {
                                         router.push(`/faculty/courses/edit?courseID=${course._id}`);
                                     }}
-
                                 >
                                     Edit
-                                </p>
+                                </div>
                             </td>
                         </tr>
                     ))}

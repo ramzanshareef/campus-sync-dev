@@ -2,20 +2,23 @@
 
 import { SubmitButton } from "@/ui/user/SubmitButton";
 import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InstructionsBeforeCollegeUploadStudentsModal } from "@/ui/components/modals/FileUploadInstructions";
 import { AddStudent, AddStudents } from "@/actions/college/Students";
+import PropTypes from "prop-types";
+import { useRouter } from "next/navigation";
 
 const xlsx = require("xlsx");
 
-export default function AddStudentComp() {
+export default function AddStudentComp({ college }) {
     const [bulkUploadState, addStudentsAction] = useFormState(AddStudents, null);
     const [state, addStudentAction] = useFormState(AddStudent, null);
     const [year, setYear] = useState("");
     const [semSelectValues, setSemSelectValues] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
-
+    const router = useRouter();
+    const effectRan = useRef(false);
     const [data, setData] = useState([]);
     const [showInstructions, setShowInstructions] = useState(false);
 
@@ -63,9 +66,31 @@ export default function AddStudentComp() {
         }
     }, [state]);
 
+    useEffect(() => {
+        if (effectRan.current) return;
+        else {
+            if (college.college === null || college.college === undefined || college.college === "" || college.college === "N/A") {
+                toast.error("Please update your profile to add college name before adding students", {
+                    position: "top-right",
+                    autoClose: 1200,
+                    onClose: () => {
+                        router.push("/college/profile");
+                    },
+                    onClick: () => {
+                        router.push("/college/profile");
+                    },
+                });
+            }
+            effectRan.current = true;
+        }
+    }, []);
+
     return (
         <>
             <div className="flex flex-col justify-center">
+                {college?.college === "N/A" ? <p className="text-red-600 text-lg animate-pulse">
+                    Please update your profile to add college name before adding students
+                </p> : <></>}
                 <h2 className="text-2xl my-4 flex flex-col">
                     Add Student
                 </h2>
@@ -261,3 +286,7 @@ export default function AddStudentComp() {
     );
 
 }
+
+AddStudentComp.propTypes = {
+    college: PropTypes.object.isRequired
+};

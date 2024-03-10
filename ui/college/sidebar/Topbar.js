@@ -1,17 +1,15 @@
-import { getSession } from "@/src/lib/session";
-import { getUser } from "@/actions/user/auth";
+import { isCollegeUser } from "@/actions/user/auth";
 import UserDropdown from "./UserDropdown";
 import SearchBar from "./SearchBar";
 
 export default async function CollegeDashboardTopBar() {
-    const session = await getSession();
-    const user = await (await getUser(session?.token))?.user;
+    let isAuth = await isCollegeUser();
     let defUser = {
         name: "User",
         email: ""
     };
-    if (user) {
-        defUser = user;
+    if (isAuth.status === 200) {
+        defUser = isAuth.user;
     }
 
     return (

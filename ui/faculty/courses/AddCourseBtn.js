@@ -8,7 +8,7 @@ const AddCourseBtn = () => {
     return (
         <>
             <button
-                className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-md"
+                className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-md float-right"
                 onClick={() => {
                     router.push("/faculty/courses/add");
                 }}

@@ -1,5 +1,5 @@
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 export default function Layout({ children, editor }) {
     return (
         <>
@@ -8,3 +8,7 @@ export default function Layout({ children, editor }) {
         </>
     );
 }
+Layout.propTypes = {
+    children: PropTypes.node,
+    editor: PropTypes.node
+};

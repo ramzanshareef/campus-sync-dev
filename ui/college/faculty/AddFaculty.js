@@ -2,18 +2,21 @@
 
 import { SubmitButton } from "@/ui/user/SubmitButton";
 import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InstructionsBeforeCollegeUploadFacultyModal } from "@/ui/components/modals/FileUploadInstructions";
 import { AddFaculties, AddFaculty } from "@/actions/college/Faculty";
+import PropTypes from "prop-types";
+import { useRouter } from "next/navigation";
 
 const xlsx = require("xlsx");
 
-export default function AddFacultyComp() {
+export default function AddFacultyComp({ college }) {
     const [bulkUploadState, addFacultiesAction] = useFormState(AddFaculties, null);
     const [state, addFacultyAction] = useFormState(AddFaculty, null);
-
+    const router = useRouter();
+    const effectRan = useRef(false);
     const [data, setData] = useState([]);
     const [showInstructions, setShowInstructions] = useState(false);
 
@@ -61,9 +64,32 @@ export default function AddFacultyComp() {
         }
     }, [state]);
 
+    useEffect(() => {
+        if (effectRan.current) return;
+        else {
+            if (college.college === null || college.college === undefined || college.college === "" || college.college === "N/A") {
+                toast.error("Please update your profile to add college name before adding students", {
+                    position: "top-right",
+                    autoClose: 1200,
+                    onClose: () => {
+                        router.push("/college/profile");
+                    },
+                    onClick: () => {
+                        router.push("/college/profile");
+                    },
+                });
+            }
+            effectRan.current = true;
+        }
+    }, []);
+
+
     return (
         <>
             <div className="flex flex-col justify-center">
+                {college?.college === "N/A" ? <p className="text-red-600 text-lg animate-pulse">
+                    Please update your profile to add college name before adding faculty
+                </p> : <></>}
                 <h2 className="text-2xl my-4 flex flex-col">
                     Add Faculty
                 </h2>
@@ -192,3 +218,7 @@ export default function AddFacultyComp() {
     );
 
 }
+
+AddFacultyComp.propTypes = {
+    college: PropTypes.object,
+};

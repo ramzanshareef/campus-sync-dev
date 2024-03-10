@@ -47,12 +47,12 @@ const Sidebar = () => {
     return (
         <>
 
-            <aside className={` absolute left-0 top-0 z-40 flex h-screen flex-col overflow-y-hidden bg-[#1C2434] max-md:w-60 md:w-72 duration-300 ease-linear lg:static lg:translate-x-0 text-white font 
+            <aside className={` absolute left-0 top-0 z-40 flex h-screen flex-col overflow-y-hidden bg-[#1C2434] w-72 duration-300 ease-linear text-white font 
             ${showSidebar ? "translate-x-0" : "-translate-x-full"}
     `}
             >
                 {/* <!-- SIDEBAR HEADER --> */}
-                <div className="flex items-center justify-center py-4 gap-x-2 md:mr-6 max-md:justify-around">
+                <div className="flex items-center justify-between pl-4 py-4 gap-x-2 md:mr-6 max-md:justify-around">
                     <Link href="/">
                         <Image
                             width={176}
@@ -74,7 +74,7 @@ const Sidebar = () => {
                     <RiContractLeftLine
                         size={25}
                         onClick={() => setShowSidebar(false)}
-                        className="cursor-pointer lg:hidden mr-2"
+                        className="cursor-pointer"
                     />
 
                 </div>

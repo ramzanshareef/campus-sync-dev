@@ -88,7 +88,7 @@ const StudentDropdown = ({ user }) => {
                         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7 dark:border-strokedark">
                             <li className="hover:text-indigo-600">
                                 <Link
-                                    href="/profile"
+                                    href="/student/profile"
                                     className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
                                 >
                                     <CgProfile size={22} />

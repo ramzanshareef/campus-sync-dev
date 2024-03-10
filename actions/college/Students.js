@@ -3,13 +3,18 @@
 import { revalidatePath } from "next/cache";
 import connectDB from "../connectDB";
 import Student from "@/models/Student";
+import { isCollegeUser } from "../user/auth";
 
 const bcryptjs = require("bcryptjs");
 
 export const getTotalStudentDetails = async () => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
         await connectDB();
-        let totalStudents = await Student.countDocuments({});
+        let totalStudents = await Student.find({ college: isAuth.user._id }).countDocuments({});
         return { totalStudents };
     }
     catch (e) {
@@ -21,9 +26,14 @@ export const getTotalStudentDetails = async () => {
     }
 };
 
-export const getAllStudentDetails = async (currentPage, college) => {
+export const getAllStudentDetails = async (currentPage) => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     try {
         await connectDB();
+        let college = isAuth.user._id;
         if (college) {
             let students = await Student.find({ college }).sort({ rollNo: 1 }).skip((currentPage - 1) * 5).limit(5);
             let length = await Student.countDocuments({ college });
@@ -31,7 +41,7 @@ export const getAllStudentDetails = async (currentPage, college) => {
             return { status: 200, students: JSON.parse(JSON.stringify(students)), length };
         }
         let students = await Student.find({}).sort({ rollNo: 1 }).skip((currentPage - 1) * 5).limit(5);
-        let length = await Student.countDocuments({});
+        let length = await Student.countDocuments({ college });
         revalidatePath("/college/students/view");
         return { status: 200, students: JSON.parse(JSON.stringify(students)), length };
     }
@@ -44,6 +54,10 @@ export const getAllStudentDetails = async (currentPage, college) => {
 };
 
 export const AddStudents = async (currentState, formData) => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     const studentsFormData = formData.get("studentsToAdd");
     const dem = studentsFormData.split(",").splice(5, studentsFormData.length - 1);
     const students = [];
@@ -59,8 +73,8 @@ export const AddStudents = async (currentState, formData) => {
     try {
         await connectDB();
         students.forEach(async (student) => {
-            student.college = "Chaitanya Bharathi Institute of Technology, Hyderabad"; // TODO: Change this to the college name
-            student.email = student.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@campus.sync";
+            student.college = isAuth.user._id,
+            student.email = isAuth.user.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
             let password = bcryptjs.hashSync(student.rollNo.toString(), salt);
             student.password = password;
@@ -81,6 +95,10 @@ export const AddStudents = async (currentState, formData) => {
 };
 
 export const AddStudent = async (currentState, formData) => {
+    let isAuth = await isCollegeUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
     const student = [];
     student.push({
         name: formData.get("name").split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
@@ -92,8 +110,8 @@ export const AddStudent = async (currentState, formData) => {
     try {
         await connectDB();
         student.forEach(async (student) => {
-            student.college = "Chaitanya Bharathi Institute of Technology, Hyderabad"; // TODO: Change this to the college name
-            student.email = student.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@campus.sync";
+            student.college = isAuth.user._id,
+            student.email = isAuth.user.college.split(" ").map((word) => word.charAt(0).toLowerCase()).join("") + "." + student.rollNo + "@campus.sync";
             let salt = bcryptjs.genSaltSync(10);
             let password = bcryptjs.hashSync(student.rollNo.toString(), salt);
             student.password = password;

@@ -13,7 +13,7 @@ const SearchBar = () => {
             <div className="w-4/5 flex gap-x-2 items-center max-md:text-sm">
                 <GiHamburgerMenu
                     size={25}
-                    className="text-gray-600 cursor-pointer lg:hidden float-left"
+                    className="text-gray-600 cursor-pointer float-left"
                     onClick={(e) => {
                         e.preventDefault();
                         setShowSidebar(!showSidebar);
