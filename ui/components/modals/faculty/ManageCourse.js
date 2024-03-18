@@ -7,11 +7,8 @@ import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import { addStudentsToCourse } from "@/actions/faculty/Courses";
-// import { useRouter } from "next/navigation";
 
-export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStudents }) => {
-    // const router = useRouter();
-
+export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStudents, setKey }) => {
     const studentsData = remainingStudents.length > 0 ? remainingStudents.map((student) => {
         return { label: student.name, value: student._id };
     }) : [];
@@ -100,12 +97,14 @@ export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStud
                                             onClose: () => {
                                                 setSelectedStudents(null);
                                                 // router.push("/faculty/courses/view?courseID=" + course._id + "&tab=1");
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                // window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             },
                                             onClick: () => {
                                                 setSelectedStudents(null);
                                                 // router.push("/faculty/courses/view?courseID=" + course._id + "&tab=1");
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                // window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             }
                                         });
                                     }
@@ -115,12 +114,14 @@ export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStud
                                             onClose: () => {
                                                 setSelectedStudents(null);
                                                 // router.push("/faculty/courses/view?courseID=" + course._id + "&tab=1");
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                // window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             },
                                             onClick: () => {
                                                 setSelectedStudents(null);
                                                 // router.push("/faculty/courses/view?courseID=" + course._id + "&tab=1");
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                // window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             }
                                         });
                                     }
@@ -152,5 +153,6 @@ AddStudentToCourseModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     course: PropTypes.object.isRequired,
-    remainingStudents: PropTypes.array
+    remainingStudents: PropTypes.array,
+    setKey: PropTypes.func.isRequired
 };

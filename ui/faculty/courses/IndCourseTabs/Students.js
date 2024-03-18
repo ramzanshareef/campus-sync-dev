@@ -10,10 +10,11 @@ const Students = ({ course, remainingStudents }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [addStudentModalOpen, setAddStudentModalOpen] = useState(false);
     const [studentToDelete, setStudentToDelete] = useState({});
+    const [key, setKey] = useState(0);
 
     return (
         <>
-            <div>
+            <div key={key}>
                 <div className="flex flex-row justify-between w-full">
                     <h2 className="text-2xl font-serif font-bold mb-2">
                         Manage Students
@@ -65,12 +66,14 @@ const Students = ({ course, remainingStudents }) => {
                     onClose={() => setIsOpen(false)}
                     student={studentToDelete}
                     course={course}
+                    setKey={setKey}
                 />
                 <AddStudentToCourseModal
                     isOpen={addStudentModalOpen}
                     onClose={() => setAddStudentModalOpen(false)}
                     course={course}
                     remainingStudents={remainingStudents}
+                    setKey={setKey}
                 />
             </div>
         </>

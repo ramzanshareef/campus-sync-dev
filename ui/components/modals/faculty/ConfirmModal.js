@@ -2,13 +2,11 @@
 
 
 import { removeStudentFromCourse } from "@/actions/faculty/Courses";
-// import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const ConfirmDeleteStudentFromCourseByFacultyModal = ({ isOpen, onClose, student, course }) => {
-    // const router = useRouter();
+export const ConfirmDeleteStudentFromCourseByFacultyModal = ({ isOpen, onClose, student, course, setKey }) => {
 
     return (
         <>
@@ -33,10 +31,10 @@ export const ConfirmDeleteStudentFromCourseByFacultyModal = ({ isOpen, onClose, 
                                         onClose();
                                         toast.success(res.message, {
                                             onClose: () => {
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             },
                                             onClick: () => {
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             }
                                         });
                                     }
@@ -44,10 +42,10 @@ export const ConfirmDeleteStudentFromCourseByFacultyModal = ({ isOpen, onClose, 
                                         onClose();
                                         toast.error(res.message, {
                                             onClose: () => {
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             },
                                             onClick: () => {
-                                                window.location.href = "/faculty/courses/view?courseID=" + course._id + "&tab=4";
+                                                setKey(Math.random());
                                             }
                                         });
                                     }
@@ -70,5 +68,6 @@ ConfirmDeleteStudentFromCourseByFacultyModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     student: PropTypes.object.isRequired,
-    course: PropTypes.object.isRequired
+    course: PropTypes.object.isRequired,
+    setKey: PropTypes.func.isRequired
 };
