@@ -28,7 +28,11 @@ const BreadCumbs = () => {
 
     return (
         <>
-            <nav aria-label="breadcrumb" className="w-max mx-4 pb-2 -mt-2 max-md:-mt-1">
+            <nav aria-label="breadcrumb"
+                className={`w-max ml-16 pb-2 mt-2 max-md:-mt-1 
+                    ${pathname.includes("/dashboard") ? "hidden" : ""}
+                `}
+            >
                 <ol className="flex flex-wrap items-center w-full px-4 py-2 rounded-md bg-blue-gray-50 bg-opacity-60 border border-gray-300 bg-gray-200 shadow-sm">
                     <li>
                         <Link href="/"

@@ -1,24 +1,22 @@
 "use client";
 
-import PropTypes from "prop-types";
 import { useState } from "react";
-import GeneralInfo from "./IndCourseTabs/GeneralInfo";
-import Quizzes from "./IndCourseTabs/Quizzes";
-import Grades from "./IndCourseTabs/Grades";
-import Students from "./IndCourseTabs/Students";
-import Resources from "./IndCourseTabs/Resources";
-import Settings from "./IndCourseTabs/Settings";
+import Settings from "../../faculty/courses/IndCourseTabs/Settings";
+import Resources from "../../faculty/courses/IndCourseTabs/Resources";
+import Students from "../../faculty/courses/IndCourseTabs/Students";
+import Grades from "../../faculty/courses/IndCourseTabs/Grades";
+import Assignments from "../../faculty/courses/IndCourseTabs/Quizzes";
+import GeneralInfo from "../../faculty/courses/IndCourseTabs/GeneralInfo";
 import { IoSettingsOutline } from "react-icons/io5";
 import { GrStatusInfo } from "react-icons/gr";
 import { MdAssignment } from "react-icons/md";
 import { PiStudentLight } from "react-icons/pi";
 import { GrResources } from "react-icons/gr";
 import { PiExam } from "react-icons/pi";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 
-const IndCourse = ({ course, remainingStudents, quizzes }) => {
-    const router = useRouter();
+const IndCourseSkeleton = () => {
     const searchParams = useSearchParams();
     const [currTab, setCurrTab] = useState(searchParams.get("tab") || 1);
     const corrData = {
@@ -27,7 +25,7 @@ const IndCourse = ({ course, remainingStudents, quizzes }) => {
             <GrStatusInfo className="inline-block text-lg" />
         </div>,
         2: <div className="flex items-center gap-x-2">
-            Quizzes
+            Assignments
             <MdAssignment className="inline-block text-lg" />
         </div>,
         3: <div className="flex items-center gap-x-2">
@@ -48,23 +46,32 @@ const IndCourse = ({ course, remainingStudents, quizzes }) => {
         </div>
     };
     const tabData = {
-        1: <GeneralInfo course={course} />,
-        2: <Quizzes
-            course={course}
-            quizzes={quizzes}
-        />,
-        3: <Grades course={course} />,
-        4: <Students course={course} remainingStudents={remainingStudents} />,
-        5: <Resources course={course} />,
-        6: <Settings course={course} />
+        1: <GeneralInfo  />,
+        2: <Assignments  />,
+        3: <Grades  />,
+        4: <Students />,
+        5: <Resources  />,
+        6: <Settings  />
     };
 
     return (
-        <div className="container mx-auto px-10">
+        <div className="container mx-auto px-8">
             <div className="rounded-lg overflow-hidden shadow-md">
                 <div className="p-6 bg-gradient-to-r from-cyan-700 to-blue-600 text-white">
-                    <h2 className="text-4xl font-serif mb-1">{course.name}</h2>
-                    <div className="font-medium text-gray-300 text-sm">{course.code}</div>
+                    <h2 className="text-4xl font-serif mb-1">
+                        <p className="text-4xl font-serif mb-1 animate-pulse bg-gradient-to-r from-cyan-700 to-blue-600 text-transparent bg-clip-text">
+                        </p>
+                    </h2>
+                    <div className="font-medium text-gray-300 text-sm">
+                        <h3 className="text-2xl font-serif mb-1 
+                            animate-pulse bg-gradient-to-r from-cyan-700 to-blue-600 text-transparent bg-clip-text
+                        ">
+                        </h3>
+                        <p className="text-lg font-serif mb-1 
+                            animate-pulse bg-gradient-to-r from-cyan-700 to-blue-600 text-transparent bg-clip-text
+                        ">
+                        </p>
+                    </div>
                 </div>
             </div>
             <div>
@@ -73,7 +80,7 @@ const IndCourse = ({ course, remainingStudents, quizzes }) => {
                         <button key={ind}
                             onClick={() => {
                                 setCurrTab(key);
-                                router.push(`/faculty/courses/view?courseID=${course._id}&tab=${key}`);
+                                // router.push(`/faculty/courses/view?courseID=${course._id}&tab=${key}`);
                             }}
                             className={` px-2 py-4 border-b-2 
                                 ${currTab === key ? "border-b-2 border-indigo-500 text-indigo-500" : "hover:border-gray-400"}`}
@@ -93,10 +100,4 @@ const IndCourse = ({ course, remainingStudents, quizzes }) => {
     );
 };
 
-IndCourse.propTypes = {
-    course: PropTypes.object.isRequired,
-    remainingStudents: PropTypes.array,
-    quizzes: PropTypes.array
-};
-
-export default IndCourse;
+export default IndCourseSkeleton;

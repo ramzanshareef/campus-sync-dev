@@ -19,7 +19,7 @@ const Students = ({ course, remainingStudents }) => {
                     <h2 className="text-2xl font-serif font-bold mb-2">
                         Manage Students
                     </h2>
-                    <button className="px-2 py-1 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md"
+                    <button className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md"
                         onClick={() => setAddStudentModalOpen(true)}
                     >
                         Add Student
@@ -42,14 +42,17 @@ const Students = ({ course, remainingStudents }) => {
                                 <div className="sm:w-1/4 max-sm:mx-2 text-center max-sm:text-wrap sm:overflow-x-auto">{student.email}</div>
                                 <div className="sm:w-1/4 max-sm:mx-2 text-center max-sm:text-wrap sm:overflow-x-auto">{student.rollNo}</div>
                                 <div className="sm:w-1/4 max-sm:mx-2 text-center max-sm:text-wrap sm:overflow-x-auto space-y-2">
-                                    <button className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md"
+                                    <button
+                                        className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-md disabled:cursor-not-allowed disabled:bg-indigo-300"
                                         onClick={() => {
                                             setStudentToDelete(student);
                                             setIsOpen(true);
                                         }}
-                                    >Remove</button>
+                                    >
+                                        Remove
+                                    </button>
                                     <button
-                                        className="px-2 py-1 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md ml-2"
+                                        className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md ml-2"
                                         onClick={() => {
                                             toast.success("Message sent to " + student.name);
                                         }}

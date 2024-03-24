@@ -10,7 +10,7 @@ export default function AllCoursesBar({ courses }) {
 
     return (
         <>
-            <div className="mt-10  w-fit mx-6 flex flex-nowrap overflow-x-auto">
+            <div className="w-full mx-6 flex flex-nowrap overflow-x-auto">
                 {courses.map((course, index) => (
                     <div key={index} className="p-4 min-w-fit">
                         <div className="h-full border-2 border-gray-400 border-opacity-60 rounded-2xl overflow-hidden cursor-pointer hover:scale-[1.008]"
@@ -30,7 +30,7 @@ export default function AllCoursesBar({ courses }) {
                 ))}
                 {
                     courses.length === 0 && (
-                        <div className="text-center text-2xl">
+                        <div className="w-full text-center text-2xl my-2">
                             No Courses Found!!
                         </div>
                     )

@@ -204,3 +204,153 @@ export async function addStudentsToCourse(courseID, students) {
         };
     }
 }
+
+export async function getAllQuizzesOfCourse(courseID) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
+    try {
+        await connectDB();
+        let faculty = isAuth.user._id;
+        let course = await Course.findOne({
+            _id: courseID,
+            faculty
+        });
+        let quizzes = await course.quizzes;
+
+        if (!course) {
+            return {
+                status: 404,
+                message: "Course Not Found"
+            };
+        }
+        return {
+            status: 200,
+            quizzes: quizzes
+        };
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}
+
+export async function addQuizToCourse(courseID, quizID, quizData) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
+    try {
+        await connectDB();
+        let faculty = isAuth.user._id;
+        let course = await Course.findOne({
+            _id: courseID,
+            faculty
+        });
+        if (!course) {
+            return {
+                status: 404,
+                message: "Course Not Found"
+            };
+        }
+        if (quizID === null) {
+            let newQuiz = {
+                title: quizData.quizTitle,
+                description: quizData.quizDescription,
+                questions: [{
+                    question: quizData.qstnName,
+                    options: quizData.options.map((option, i) => {
+                        return {
+                            option: option,
+                            correct: (i === quizData.correctAns)
+                        };
+                    })
+                }]
+            };
+            course.quizzes.push(newQuiz);
+            await course.save();
+            let newQuizID = JSON.parse(JSON.stringify(course.quizzes[course.quizzes.length - 1]._id));
+            return {
+                status: 200,
+                message: "Quiz Added Successfully",
+                quizID: newQuizID
+            };
+        }
+        else {
+            let quizIndex = course.quizzes.findIndex((quiz) => quiz._id == quizID);
+            if (quizIndex === -1) {
+                return {
+                    status: 404,
+                    message: "Quiz Not Found"
+                };
+            }
+            let newQuestion = {
+                question: quizData.qstnName,
+                options: quizData.options.map((option, i) => {
+                    return {
+                        option: option,
+                        correct: (i === quizData.correctAns)
+                    };
+                })
+            };
+            course.quizzes[quizIndex].questions.push(newQuestion);
+            await course.save();
+            let newQuizID = JSON.parse(JSON.stringify(course.quizzes[quizIndex]._id));
+            return {
+                status: 200,
+                message: "Question Added Successfully",
+                quizID: newQuizID
+            };
+        }
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}
+
+export async function removeQuizFromCourse(courseID, quizID) {
+    let isAuth = await isFacultyUser();
+    if (isAuth.status !== 200) {
+        return { status: 401, message: "Unauthorized" };
+    }
+    try {
+        await connectDB();
+        let faculty = isAuth.user._id;
+        let course = await Course.findOne({
+            _id: courseID,
+            faculty
+        });
+        if (!course) {
+            return {
+                status: 404,
+                message: "Course Not Found"
+            };
+        }
+        let quizIndex = course.quizzes.findIndex((quiz) => quiz._id == quizID);
+        if (quizIndex === -1) {
+            return {
+                status: 404,
+                message: "Quiz Not Found"
+            };
+        }
+        course.quizzes.splice(quizIndex, 1);
+        await course.save();
+        revalidatePath("/faculty/courses/view?courseID=" + courseID + "&tab=2");
+        return {
+            status: 200,
+            message: "Quiz Removed Successfully"
+        };
+    }
+    catch (error) {
+        return {
+            status: 500,
+            message: "Internal Server Error" + error.message
+        };
+    }
+}

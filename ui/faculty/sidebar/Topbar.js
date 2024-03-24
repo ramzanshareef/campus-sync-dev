@@ -14,12 +14,9 @@ export default async function FacultyDashboardTopBar() {
 
     return (
         <>
-            <div className="" >
-                <div className="sticky w-full h-16 border-b border-b-gray-300 shadow-md mb-4 flex items-center px-10 justify-between">
-                    <SearchBar />
-                    <UserDropdown user={defUser} />
-                </div>
-
+            <div className="sticky w-full h-20 flex items-center px-10 justify-between bg-gray-900 text-white">
+                <SearchBar />
+                <UserDropdown user={defUser} />
             </div>
         </>
     );

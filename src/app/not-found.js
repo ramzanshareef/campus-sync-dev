@@ -17,9 +17,9 @@ export default function NotFound() {
 
                         <Link
                             href={"/"}
-                            className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-indigo-600 active:bg-indigo-700 hover:bg-indigo-700 ">Go Home</Link>
+                            className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-md focus:outline-none bg-indigo-600 active:bg-indigo-700 hover:bg-indigo-700 ">Go Home</Link>
                         <button
-                            className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-indigo-600 active:bg-indigo-700 hover:bg-indigo-700 ml-2"
+                            className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-md focus:outline-none bg-indigo-600 active:bg-indigo-700 hover:bg-indigo-700 ml-2"
                             onClick={() => window.history.back()}
                         >
                             Go Back

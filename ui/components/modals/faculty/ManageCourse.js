@@ -41,14 +41,14 @@ export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStud
             let c = students.filter((student) => {
                 return student.value !== "**" && student.value !== "*";
             });
-            c.unshift({ label: "Select All", value: "*" }, { label: "DeSelect All", value: "**" });
+            c.unshift({ label: "Select All", value: "*" }, { label: "Clear All", value: "**" });
             setStudents(c);
         }
         else if (selectedStudents?.length === allStudents?.length) {
             let c = students.filter((student) => {
                 return student.value !== "**" && student.value !== "*";
             });
-            c.unshift({ label: "DeSelect All", value: "**" });
+            c.unshift({ label: "Clear All", value: "**" });
             setStudents(c);
         }
         else if (selectedStudents === null) {
@@ -126,7 +126,7 @@ export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStud
                                         });
                                     }
                                 }}
-                                className="px-2 py-1 bg-indigo-500 text-white rounded-md
+                                className="px-4 py-2 bg-indigo-500 text-white rounded-md
                                 disabled:opacity-50 disabled:cursor-not-allowed
                                 "
                                 disabled={selectedStudents === null || selectedStudents.length === 0}
@@ -135,7 +135,7 @@ export const AddStudentToCourseModal = ({ isOpen, onClose, course, remainingStud
                             </button>
                             <button
                                 onClick={onClose}
-                                className="px-2 py-1 bg-red-500 text-white rounded-md"
+                                className="px-4 py-2 bg-red-500 text-white rounded-md"
                             >
                                 Cancel
                             </button>

@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }) {
                 <div className="w-full flex flex-col">
                     <FacultyDashboardTopBar />
                     <BreadCumbs />
-                    <div className="p-5 overflow-y-scroll scrollbar-hide">
+                    <div className="py-5 px-7 overflow-y-scroll scrollbar-hide">
                         {children}
                     </div>
                 </div>

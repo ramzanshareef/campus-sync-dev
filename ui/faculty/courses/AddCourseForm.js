@@ -38,14 +38,14 @@ const AddCourseForm = () => {
             let c = students.filter((student) => {
                 return student.value !== "**" && student.value !== "*";
             });
-            c.unshift({ label: "Select All", value: "*" }, { label: "DeSelect All", value: "**" });
+            c.unshift({ label: "Select All", value: "*" }, { label: "Clear All", value: "**" });
             setStudents(c);
         }
         else if (selectedStudents?.length === allStudents?.length) {
             let c = students.filter((student) => {
                 return student.value !== "**" && student.value !== "*";
             });
-            c.unshift({ label: "DeSelect All", value: "**" });
+            c.unshift({ label: "Clear All", value: "**" });
             setStudents(c);
         }
         else if (selectedStudents === null && document.getElementById("courseDepartment").value !== "") {
