@@ -100,36 +100,38 @@ const LoginForm = (props) => {
                             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login to your Account</h2>
                         </div>
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                            <form action={loginAction} className="space-y-6" id="loginForm">
+                            <form action={loginAction} className="space-y-8" id="loginForm">
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-                                    <div className="mt-2">
+                                    <div className="mt-2 relative">
                                         <input
                                             id="email"
                                             name="email"
                                             type="email"
-                                            autoComplete="email"
+                                            placeholder="Email Address"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50" />
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50 peer placeholder-transparent
+                                            " />
+                                        <label htmlFor="email" className="absolute block left-0 -top-7 text-sm font-medium leading-6 text-gray-900 peer-placeholder-shown:hidden transition-all
+                                        ">Email Address</label>
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="flex items-center justify-between">
-                                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                                        <div className="text-sm">
-                                            <Link href={"/forgotpassword"} className="font-semibold text-indigo-600 hover:text-indigo-500" >
+                                    <div className="flex items-center justify-between relative">
+                                        <div className="text-sm absolute right-0 bottom-0">
+                                            <Link href={"/forgotpassword"} className="font-semibold text-indigo-600 hover:text-indigo-500 abs" >
                                                 Forgot password?
                                             </Link>
                                         </div>
                                     </div>
-                                    <div className="mt-2">
+                                    <div className="mt-2 relative">
                                         <input
                                             id="password"
                                             name="password"
                                             type="password"
-                                            autoComplete="current-password"
+                                            placeholder="Password"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50" />
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50 peer placeholder-transparent" />
+                                        <label htmlFor="password" className="absolute block left-0 -top-7 text-sm font-medium leading-6 text-gray-900 peer-placeholder-shown:hidden transition-all">Password</label>
                                     </div>
                                 </div>
                                 <div>
