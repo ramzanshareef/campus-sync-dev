@@ -1,8 +1,11 @@
 import "./globals.css";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import NextTopLoader from "nextjs-toploader";
+import { Inter } from "next/font/google";
 
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
     title: "CampusSync",
@@ -12,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <body>
+            <body className={inter.className}>
                 <NextTopLoader
                     color="#000fff"
                     showSpinner={false}

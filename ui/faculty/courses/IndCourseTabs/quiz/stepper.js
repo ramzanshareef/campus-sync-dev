@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export function StepperWithContent({ activeStep, setActiveStep, course }) {
+export function QuizStepperWithContent({ activeStep, setActiveStep, course, cancelQuizCreation }) {
     const [isLastStep, setIsLastStep] = useState(false);
     const [isFirstStep, setIsFirstStep] = useState(true);
     const [quizTitle, setQuizTitle] = useState("");
@@ -79,14 +79,14 @@ export function StepperWithContent({ activeStep, setActiveStep, course }) {
                             Select a Lesson
                         </p>
                         <span
-                            className="text-xs text-gray-600"
+                            className="text-sm text-gray-600"
                         >
                             You have selected a course, now select a lesson to create a quiz.
                         </span>
                         <input type="text"
                             className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-4 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-600"
                             placeholder="Search for a lesson"
-                            value={"Lesson 1: Introduction to Deep Learning"}
+                            value={"Lesson 1: Introduction to " + course.name}
                             disabled={true}
                         />
                     </div>
@@ -144,21 +144,23 @@ export function StepperWithContent({ activeStep, setActiveStep, course }) {
                     </div>
                 </div>
             </div>
-            <ButtonHandler
+            <QuizCreateButtonHandler
                 isLastStep={isLastStep}
                 isFirstStep={isFirstStep}
                 handleNext={handleNext}
                 handlePrev={handlePrev}
+                cancelQuizCreation={cancelQuizCreation}
                 nextDisabled={activeStep === 2 && (quizTitle.length < 5 || quizDescription.length < 10)}
             />
         </div>
     );
 }
 
-StepperWithContent.propTypes = {
+QuizStepperWithContent.propTypes = {
     activeStep: PropTypes.number.isRequired,
     setActiveStep: PropTypes.func.isRequired,
-    course: PropTypes.object.isRequired
+    course: PropTypes.object.isRequired,
+    cancelQuizCreation: PropTypes.func.isRequired
 };
 
 const Step2 = ({ quizTitle, setQuizTitle, quizDescription, setQuizDescription }) => {
@@ -197,7 +199,7 @@ Step2.propTypes = {
     setQuizDescription: PropTypes.func.isRequired
 };
 
-const ButtonHandler = ({ isLastStep, isFirstStep, handleNext, handlePrev, nextDisabled }) => {
+const QuizCreateButtonHandler = ({ isLastStep, isFirstStep, handleNext, handlePrev, nextDisabled, cancelQuizCreation }) => {
     const router = useRouter();
     return (
         <div className="mt-32 flex justify-between">
@@ -207,6 +209,12 @@ const ButtonHandler = ({ isLastStep, isFirstStep, handleNext, handlePrev, nextDi
                 className="bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4 rounded-md disabled:cursor-not-allowed disabled:bg-indigo-300"
             >
                 Prev
+            </button>
+            <button
+                onClick={cancelQuizCreation}
+                className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-md disabled:cursor-not-allowed disabled:bg-red-300"
+            >
+                Cancel Creating Quiz
             </button>
             <button
                 onClick={() => {
@@ -236,10 +244,11 @@ const ButtonHandler = ({ isLastStep, isFirstStep, handleNext, handlePrev, nextDi
         </div>
     );
 };
-ButtonHandler.propTypes = {
+QuizCreateButtonHandler.propTypes = {
     isLastStep: PropTypes.bool.isRequired,
     isFirstStep: PropTypes.bool.isRequired,
     handleNext: PropTypes.func.isRequired,
     handlePrev: PropTypes.func.isRequired,
-    nextDisabled: PropTypes.bool.isRequired
+    nextDisabled: PropTypes.bool.isRequired,
+    cancelQuizCreation: PropTypes.func.isRequired
 };

@@ -31,12 +31,17 @@ const quizSchema = new mongoose.Schema({
                     },
                 },
             ],
+            score: {
+                type: Number,
+                required: true,
+                default: 1,
+            }
         },
     ],
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         auto: true,
-    }
+    },
 });
 
 const courseSchema = new mongoose.Schema({

@@ -4,7 +4,6 @@ import { SubmitButton } from "@/ui/user/SubmitButton";
 import { useFormState } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { InstructionsBeforeCollegeUploadStudentsModal } from "@/ui/components/modals/FileUploadInstructions";
 import { AddStudent, AddStudents } from "@/actions/college/Students";
 import PropTypes from "prop-types";

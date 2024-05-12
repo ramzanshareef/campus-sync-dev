@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { StepperWithContent } from "./quiz/stepper";
+import { QuizStepperWithContent } from "./quiz/stepper";
 import { useRouter } from "next/navigation";
 import { ExistingQuizModal } from "@/ui/components/modals/faculty/ExistingQuizModal";
 import { DeleteExistingQuizModal } from "@/ui/components/modals/faculty/DeleteExistingQuizModal";
@@ -44,9 +44,8 @@ const Quizzes = ({ course, quizzes }) => {
                                 router.push(`/faculty/courses/view?courseID=${course._id}&tab=2#create-quiz`);
                             }
                         }}
-
                     >
-                        {showCreateQuiz === false ? "Create Quiz" : "Close"}
+                        {showCreateQuiz === false ? "Create Quiz" : "Cancel Creating Quiz"}
                     </button>
                     <button
                         className="text-white py-2 px-4 max-md:px-2 rounded-md flex items-center mt-2 bg-purple-500 hover:bg-purple-700"
@@ -75,10 +74,14 @@ const Quizzes = ({ course, quizzes }) => {
                     >
                         Create Quiz
                     </h3>
-                    <StepperWithContent
+                    <QuizStepperWithContent
                         activeStep={activeStep}
                         setActiveStep={setActiveStep}
                         course={course}
+                        cancelQuizCreation={() => {
+                            setShowCreateQuiz(false);
+                            router.push(`/faculty/courses/view?courseID=${course._id}&tab=2`);
+                        }}
                     />
                 </div>
                 <div

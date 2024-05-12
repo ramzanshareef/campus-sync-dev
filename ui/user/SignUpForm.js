@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { SubmitButton } from "./SubmitButton";
 import Image from "next/image";
 import { useFormState } from "react-dom";

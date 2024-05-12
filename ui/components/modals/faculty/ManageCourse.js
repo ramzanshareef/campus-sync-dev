@@ -2,7 +2,6 @@
 
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import { useEffect, useState } from "react";

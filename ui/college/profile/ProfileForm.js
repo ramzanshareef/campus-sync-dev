@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { updateCollegeDetails, updateCollegePassword } from "@/actions/college/profile";
 import { LiaUniversitySolid } from "react-icons/lia";
 

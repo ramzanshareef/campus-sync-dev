@@ -1,10 +1,22 @@
 "use client";
 
 import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { getAttemptedQuizData } from "@/actions/student/courses";
 import { TiTick } from "react-icons/ti";
 import { MdClose } from "react-icons/md";
 
-export const ExistingQuizModal = ({ isOpen, onClose, quiz }) => {
+export const AttemptedQuizModal = ({ isOpen, onClose, quiz }) => {
+
+    useEffect(() => {
+        if (isOpen === true) {
+            (async () => {
+                const data = await getAttemptedQuizData(quiz._id);
+                console.log(data);
+            })();
+        }
+    }, [quiz]);
+
     return (
         <>
             {(isOpen === true)
@@ -75,7 +87,7 @@ export const ExistingQuizModal = ({ isOpen, onClose, quiz }) => {
     );
 };
 
-ExistingQuizModal.propTypes = {
+AttemptedQuizModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     quiz: PropTypes.object.isRequired

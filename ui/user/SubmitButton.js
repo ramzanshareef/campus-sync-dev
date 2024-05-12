@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import { useFormStatus } from "react-dom";
 
@@ -30,8 +31,29 @@ export const SubmitButton = ({ title, size }) => {
         </>
     );
 };
-
 SubmitButton.propTypes = {
     title: PropTypes.string.isRequired,
+    size: PropTypes.string.isRequired,
+};
+
+export const CancelButton = ({ returnTo, size }) => {
+    const router = useRouter();
+    return (
+        <>
+            <button
+                type="button"
+                onClick={() => router.push(returnTo)}
+                className={` "flex justify-center rounded-md bg-red-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600
+                disabled:cursor-not-allowed disabled:shadow-none disabled:bg-red-400 disabled:hover:bg-red-400 disabled:focus-visible:outline-red-400 disabled:focus-visible:outline-offset-0 disabled:focus-visible:outline-2"
+                ${size === "fit" ? "w-fit" : "w-full"}
+                `}
+            >
+                Cancel
+            </button>
+        </>
+    );
+};
+CancelButton.propTypes = {
+    returnTo: PropTypes.string.isRequired,
     size: PropTypes.string.isRequired,
 };

@@ -4,7 +4,6 @@ import { decrease, increase, logout } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
-import "react-toastify/dist/ReactToastify.css";
 
 export const DefaultButton = ({ title, className }) => {
     return (

@@ -5,9 +5,8 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
-import { SubmitButton } from "@/ui/user/SubmitButton";
+import { CancelButton, SubmitButton } from "@/ui/user/SubmitButton";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Image from "next/image";
 import { getStudentsByDepartment } from "@/actions/faculty/GetStudents";
@@ -250,9 +249,13 @@ const AddCourseForm = () => {
                         }
                     </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex justify-between">
                     <SubmitButton
                         title="Add Course"
+                        size="fit"
+                    />
+                    <CancelButton
+                        returnTo="/faculty/courses"
                         size="fit"
                     />
                 </div>

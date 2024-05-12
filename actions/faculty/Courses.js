@@ -267,7 +267,8 @@ export async function addQuizToCourse(courseID, quizID, quizData) {
                             option: option,
                             correct: (i === quizData.correctAns)
                         };
-                    })
+                    }),
+                    score: quizData.points
                 }]
             };
             course.quizzes.push(newQuiz);
@@ -294,7 +295,8 @@ export async function addQuizToCourse(courseID, quizID, quizData) {
                         option: option,
                         correct: (i === quizData.correctAns)
                     };
-                })
+                }),
+                score: quizData.points
             };
             course.quizzes[quizIndex].questions.push(newQuestion);
             await course.save();

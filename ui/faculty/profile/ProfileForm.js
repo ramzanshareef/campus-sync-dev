@@ -8,7 +8,6 @@ import { MdPersonalInjury } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const ProfileForm = ({ faculty }) => {
     const [state, personalInfoUpdateHandler] = useFormState(updateFacultyDetails, null);

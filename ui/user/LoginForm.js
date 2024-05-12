@@ -4,7 +4,6 @@ import Link from "next/link";
 import { SubmitButton } from "./SubmitButton";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { userLogin } from "@/actions/user/auth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

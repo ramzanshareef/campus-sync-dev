@@ -4,7 +4,6 @@
 import { removeStudentFromCourse } from "@/actions/faculty/Courses";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export const ConfirmDeleteStudentFromCourseByFacultyModal = ({ isOpen, onClose, student, course, setKey }) => {
 

@@ -21,21 +21,21 @@ const studentSchema = new mongoose.Schema({
     },
     department: {
         type: String,
-        default : "N/A"
+        default: "N/A"
     },
     year: {
         type: Number,
-        default : 0
+        default: 0
     },
     semester: {
         type: Number,
-        default : 0
+        default: 0
     },
     rollNo: {
         type: Number,
         unique: true,
-        default : 0
-    }
+        default: 0
+    },
 });
 
 export default mongoose.models.student || mongoose.model("student", studentSchema);

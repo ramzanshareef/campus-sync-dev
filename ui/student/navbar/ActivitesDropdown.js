@@ -13,6 +13,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { MdOutlineArrowRight } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 
 
@@ -94,6 +95,7 @@ export const OfficeDropdown = ({ size }) => {
     }
 };
 export const AcademicsDropdown = ({ size }) => {
+    const router = useRouter();
     if (size === "sm") {
         return (
             <Dropdown
@@ -110,6 +112,11 @@ export const AcademicsDropdown = ({ size }) => {
                 wrapperClassName="min-w-full"
                 className="min-w-full"
             >
+                <Dropdown.Item
+                    onClick={() => router.push("/student/courses/all")}
+                >
+                    My Courses
+                </Dropdown.Item>
                 <Dropdown.Item>
                     Academic Calendar
                 </Dropdown.Item>
@@ -152,6 +159,11 @@ export const AcademicsDropdown = ({ size }) => {
                 buttonVariant="tertiary"
                 wrapperClassName="border-r border-gray-500"
             >
+                <Dropdown.Item
+                    onClick={() => router.push("/student/courses/all")}
+                >
+                    My Courses
+                </Dropdown.Item>
                 <Dropdown.Item>
                     Academic Calendar
                 </Dropdown.Item>
