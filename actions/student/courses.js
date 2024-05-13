@@ -4,6 +4,7 @@ import { getSession } from "@/src/lib/session";
 import { getUser } from "../user/auth";
 import Course from "@/models/Course";
 import StudentQuizAttempt from "@/models/Student.QuizAttempt";
+import { revalidatePath } from "next/cache";
 
 export async function getCoursesOfStudent() {
     const session = await getSession();
@@ -32,9 +33,15 @@ export async function getCourseDetailsByStudent(courseID) {
         }
         let studentID = (await getUser(session.token)).user?._id;
         const course = await Course.findOne({ _id: courseID, students: studentID }).populate("faculty");
+        if (!course) {
+            return {
+                status: 400,
+                message: "Course not found"
+            };
+        }
         return {
             status: 200,
-            course: course
+            course: JSON.parse(JSON.stringify(course))
         };
     }
     catch (err) {
@@ -93,6 +100,7 @@ export async function attemptQuiz(currentState, formData) {
             score: score
         });
         await quizAttempt.save();
+        revalidatePath(`/student/courses/view?courseID=${course._id}`);
         return {
             status: 200,
             message: "Thank you for attempting the quiz"
@@ -104,31 +112,6 @@ export async function attemptQuiz(currentState, formData) {
             message: err.message
         };
     }
-}
-
-export async function quizAttempedOrNot(quizID) {
-    let session = await getSession();
-    if (!session || session.userType !== "student" || !session.isAuth) {
-        return {
-            status: 401,
-            message: "Unauthorized"
-        };
-    }
-    let studentID = (await getUser(session.token)).user?._id;
-    let quizAttempt = await StudentQuizAttempt.findOne({
-        studentID: studentID,
-        quizID: quizID
-    });
-    if (quizAttempt) {
-        return {
-            status: 200,
-            message: "Quiz already attempted"
-        };
-    }
-    return {
-        status: 400,
-        message: "Quiz not attempted"
-    };
 }
 
 export async function getAttemptedQuizData(quizID) {
@@ -150,9 +133,32 @@ export async function getAttemptedQuizData(quizID) {
             quizAttempt: quizAttempt
         };
     }
-    console.log(quizID, studentID);
     return {
         status: 400,
         message: "Quiz not attempted"
+    };
+}
+
+export async function getAllQuizResults(courseID) {
+    let session = await getSession();
+    if (!session || session.userType !== "student" || !session.isAuth) {
+        return {
+            status: 401,
+            message: "Unauthorized"
+        };
+    }
+    let studentID = (await getUser(session.token)).user?._id;
+    let course = await Course.findOne({
+        _id: courseID,
+        students: studentID
+    }).select("quizzes");
+    let quizIDs = course.quizzes.map(quiz => quiz._id);
+    let quizAttempts = await StudentQuizAttempt.find({
+        studentID: studentID,
+        quizID: { $in: quizIDs }
+    });
+    return {
+        status: 200,
+        quizAttempts: quizAttempts,
     };
 }

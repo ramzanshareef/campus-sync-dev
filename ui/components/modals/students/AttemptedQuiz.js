@@ -1,21 +1,11 @@
 "use client";
 
 import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { getAttemptedQuizData } from "@/actions/student/courses";
-import { TiTick } from "react-icons/ti";
 import { MdClose } from "react-icons/md";
+import { TiTick } from "react-icons/ti";
 
-export const AttemptedQuizModal = ({ isOpen, onClose, quiz }) => {
 
-    useEffect(() => {
-        if (isOpen === true) {
-            (async () => {
-                const data = await getAttemptedQuizData(quiz._id);
-                console.log(data);
-            })();
-        }
-    }, [quiz]);
+export const AttemptedQuizModal = ({ isOpen, onClose, quiz, quizAttempt }) => {
 
     return (
         <>
@@ -29,21 +19,27 @@ export const AttemptedQuizModal = ({ isOpen, onClose, quiz }) => {
                         <p className="text-gray-500 text-center">
                             {quiz.description}
                         </p>
-                        <div className="mt-4">
-                            <h3 className="text-lg font-semibold">
-                                Questions
-                                <span
-                                    className="text-sm ml-1 italic"
-                                >
-                                    ({quiz.questions.length})
-                                </span>
-                            </h3>
-                            <ol className="mt-2">
+                        <p
+                            className="animate-pulse text-center text-lg font-semibold text-indigo-600"
+                        >
+                            <span className="font-semibold">Your Score:</span> {quizAttempt.score}/{
+                                quiz.questions.reduce((acc, qstn) => {
+                                    return acc + qstn.score;
+                                }, 0)
+                            }
+                        </p>
+                        <div>
+                            <ol>
                                 {quiz.questions.map((qstn, ind) => {
                                     return (
                                         <li key={ind} className="border-b border-gray-200 py-2 list-decimal">
                                             <h4 className="text-lg font-semibold">
                                                 {qstn.question}
+                                                <span
+                                                    className="text-sm ml-1 italic"
+                                                >
+                                                    ({qstn.score} points)
+                                                </span>
                                             </h4>
                                             <ol
                                                 className="flex flex-col"
@@ -60,6 +56,18 @@ export const AttemptedQuizModal = ({ isOpen, onClose, quiz }) => {
                                                                 :
                                                                 <MdClose className="mr-2" />}
                                                             {opt.option}
+                                                            {quizAttempt.responses.map((resp, i) => {
+                                                                if (resp.question === qstn._id && resp.selectedOption === opt._id) {
+                                                                    return (
+                                                                        <span
+                                                                            key={i}
+                                                                            className="ml-2 text-sm italic"
+                                                                        >
+                                                                            (Your Response)
+                                                                        </span>
+                                                                    );
+                                                                }
+                                                            })}
                                                         </li>
                                                     );
                                                 })}
@@ -71,10 +79,12 @@ export const AttemptedQuizModal = ({ isOpen, onClose, quiz }) => {
                         </div>
                         <div className="flex justify-end mt-4">
                             <button
+                                type="submit"
+                                className="flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+                disabled:cursor-not-allowed disabled:shadow-none disabled:bg-indigo-400 disabled:hover:bg-indigo-400 disabled:focus-visible:outline-indigo-400 disabled:focus-visible:outline-offset-0 disabled:focus-visible:outline-2 w-fit"
                                 onClick={onClose}
-                                className="px-4 py-2 bg-gray-200 hover:bg-gray-100 text-gray-800 rounded-md mr-4"
                             >
-                                Close
+                                Close Quiz
                             </button>
                         </div>
 
@@ -90,5 +100,6 @@ export const AttemptedQuizModal = ({ isOpen, onClose, quiz }) => {
 AttemptedQuizModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    quiz: PropTypes.object.isRequired
+    quiz: PropTypes.object.isRequired,
+    quizAttempt: PropTypes.object.isRequired
 };

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { SubmitButton } from "@/ui/user/SubmitButton";
 import { toast } from "react-toastify";
 
+
 export const AttemptQuizModal = ({ isOpen, onClose, quiz }) => {
     const [state, attemptQuizAction] = useFormState(attemptQuiz, null);
 
@@ -66,7 +67,10 @@ export const AttemptQuizModal = ({ isOpen, onClose, quiz }) => {
                                         return (
                                             <li key={ind} className="border-b border-gray-200 py-2 list-decimal">
                                                 <h4 className="text-lg font-semibold">
-                                                    {qstn.question}
+                                                    {qstn.question} {" "}
+                                                    <span className="text-xs">
+                                                        {qstn.score} points
+                                                    </span>
                                                 </h4>
                                                 <ol
                                                     className="flex flex-col"
