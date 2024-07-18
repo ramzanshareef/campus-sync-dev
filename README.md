@@ -1,8 +1,8 @@
-# Campus Sync
+# 📢 Campus Sync
 
 Campus Sync is an AI-based student and faculty management system built with Next.js, MongoDB, and other technologies to streamline educational processes.
 
-## Features
+## 🚀 Features
 
 - **User Authentication**: Secure authentication using bcryptjs for hashing passwords and JWT for session management.
 - **Role-based Access**: Different access levels for students, faculty, and administrators.
@@ -15,7 +15,7 @@ Campus Sync is an AI-based student and faculty management system built with Next
 - **Responsive Design**: Utilizes Tailwind CSS for a modern, responsive user interface.
 - **State Management**: Zustand for efficient state management within React components.
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 - **Next.js**: React framework for server-side rendering and frontend logic.
 - **MongoDB**: NoSQL database for storing user data, course details, quiz results, and community interactions.
@@ -26,7 +26,7 @@ Campus Sync is an AI-based student and faculty management system built with Next
 - **Iron Session**: Secure session management for user authentication.
 - **Stripe**: Payment processing platform for subscription management.
 
-## Installation
+## ⬇️ Installation
 
 1. Clone the repository:
    ```bash
@@ -56,7 +56,7 @@ NEXT_PUBLIC_APP_URL="http://localhost:3000"
 JWT_SECRET="<your_jwt_secret>"
 SESSION_SECRET="<your_session_secret>"
 ```
-## Usage
+## 📝 Usage
 1. **User Registration**: Students and faculty can sign up using their email addresses.
 2. **Subscription Plans**: Choose from Lite, Standard, or Premium plans with varying access to AI quizzes and other features, managed through Stripe payments.
 3. **Course Management**: Faculty can create new courses, upload videos, and manage student enrollments.
@@ -65,17 +65,17 @@ SESSION_SECRET="<your_session_secret>"
 6. **Real-time Chat**: Communicate with other students in real-time for project collaboration and study groups.
 7. **Profile Management**: Update user profiles and view academic progress and quiz results.
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps to contribute:
 
 1. Fork the repository
-2. Create a new branch (git checkout -b feature/YourFeature)
-3. Commit your changes (git commit -m 'Add some feature')
-4. Push to the branch (git push origin feature/YourFeature)
+2. Create a new branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
 5. Open a pull request
 
-## Contact
+## 👉 Contact
 
 For any inquiries or feedback, please reach out to:
 - **Name**: Mohd Ramzan Shareef
